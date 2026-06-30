@@ -291,6 +291,14 @@
 
     const logoUrl = getImgUrl(gen.Logo);
     const mainImgUrl = getImgUrl(gen.MainImage);
+
+    if (logoUrl) {
+      const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = logoUrl;
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
     
     document.getElementById('nav-brand-content').innerHTML = `<img src="${logoUrl}" alt="Logo" onerror="this.style.display='none'"><h2>${madrasaName}</h2>`;
 
