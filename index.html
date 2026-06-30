@@ -250,9 +250,10 @@
   photoBox.addEventListener('mousedown', handleInteraction);
   photoBox.addEventListener('wheel', handleInteraction, {passive: true});
 
-
-  // --- Fetch Data from Apps Script API ---
-  fetch(API_URL + "?action=getPublicData", { redirect: "follow" })
+  // --- Fetch Data from Apps Script API (Two-Stage Fast Loading) ---
+  
+  // ഘട്ടം 1: അടിസ്ഥാന വിവരങ്ങൾ വേഗത്തിൽ എടുക്കുന്നു
+  fetch(API_URL + "?action=getBasicData", { redirect: "follow" })
     .then(response => {
       if (!response.ok) throw new Error("Network response was not ok");
       return response.text();
@@ -260,8 +261,24 @@
     .then(text => {
       try {
         const data = JSON.parse(text);
-        showBasicData(data);
-        showGallery(data.gallery);
+        
+        // ഇത് വർക്ക് ആവുന്നതോടെ മെയിൻ ലോഡർ മായും (വളരെ വേഗത്തിൽ)
+        showBasicData(data); 
+
+        // ഘട്ടം 2: അതിനുശേഷം ബാക്ക്ഗ്രൗണ്ടിൽ ഗാലറി ലോഡ് ചെയ്യാൻ തുടങ്ങുന്നു
+        const folderId = data.general.GalleryFolderID;
+        if(folderId) {
+          fetch(API_URL + "?action=getGalleryData&folderId=" + folderId, { redirect: "follow" })
+            .then(res => res.json())
+            .then(galleryData => showGallery(galleryData))
+            .catch(err => {
+              console.error("Gallery failed:", err);
+              document.getElementById('gallery-loader').innerText = "ഗാലറി ലോഡ് ചെയ്യുന്നതിൽ പിഴവ്.";
+            });
+        } else {
+           document.getElementById('gallery-loader').style.display = 'none';
+        }
+
       } catch(e) {
         console.error("JSON Parse Error:", e);
         document.getElementById('main-loader').innerHTML = "<p style='color:red; font-weight:bold; text-align:center;'>Error! ആപ്പ് സ്ക്രിപ്റ്റിൽ <br><b>New Version</b> ആയി ഡിപ്ലോയ് ചെയ്തിട്ടുണ്ടോ എന്ന് ഉറപ്പുവരുത്തുക.</p>";
