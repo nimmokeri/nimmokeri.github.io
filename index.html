@@ -189,7 +189,7 @@
 </div>
 
 <script>
-  // 1. താങ്കളുടെ കൃത്യമായ API URL
+  // താങ്കളുടെ ആപ്പ് സ്ക്രിപ്റ്റ് API URL
   const API_URL = "https://script.google.com/macros/s/AKfycbzvat_7NEaidHtU1D6FY-PhEbJswt6tYbB5qwIPqacSf21_lv5wCNC6ijIwewH8YyIo/exec"; 
 
   // --- Admin Access Shortcuts ---
@@ -203,7 +203,7 @@
   let tapCount = 0;
   let tapTimer;
   document.getElementById('nav-brand-content').addEventListener('click', function(event) {
-    event.preventDefault(); // മൊബൈലിൽ ലിങ്ക് ക്ലിക്ക് ആവാതിരിക്കാൻ
+    event.preventDefault();
     tapCount++;
     clearTimeout(tapTimer);
     
@@ -272,13 +272,13 @@
       document.getElementById('main-loader').innerHTML = "<p style='color:red; font-weight:bold;'>കണക്ഷൻ പിഴവ്! ദയവായി പേജ് റീഫ്രഷ് ചെയ്യുക.</p>";
     });
 
-  // --- ID യെ Image URL ആക്കി മാറ്റാനുള്ള ഫംഗ്ഷൻ (Crash പരിഹാരം) ---
+  // --- GitHub Pages-ൽ ഇമേജുകൾ ക്രാഷ് ആവാതെ കാണിക്കാനുള്ള സുരക്ഷിതമായ ലിങ്ക് ഫോർമാറ്റ് ഹെൽപ്പർ ---
   function getImgUrl(val) {
     if (!val) return "";
     val = val.trim();
-    // അതൊരു URL ആണെങ്കിൽ അങ്ങനെ തന്നെ കൊടുക്കുക, അല്ലെങ്കിൽ ID ആണെങ്കിൽ ഗൂഗിൾ ഡ്രൈവ് URL ആക്കുക
     if (val.startsWith("http") || val.startsWith("data:")) return val;
-    return "https://drive.google.com/uc?export=view&id=" + val;
+    // ഗൂഗിൾ ഡ്രൈവ് ID-കളെ ക്രാഷ് ആവാത്ത തരത്തിലുള്ള സുരക്ഷിത ലിങ്കുകളാക്കി മാറ്റുന്നു
+    return "https://lh3.googleusercontent.com/d/" + val;
   }
 
   // --- Render Functions ---
@@ -286,10 +286,9 @@
     const gen = data.general;
     const madrasaName = gen.MadrasaName || 'നിബ്റാസുൽ ഇസ്‌ലാം മദ്റസ, മൊകേരി';
     
-    // ഫൂട്ടറിലെ പേര് ഡൈനാമിക് ആയി അപ്ഡേറ്റ് ചെയ്യുന്നു
+    // ഫൂട്ടറിലെ മദ്റസയുടെ പേര് ഡൈനാമിക് ആയി നൽകുന്നു
     document.getElementById('footer-madrasa-name').innerText = madrasaName;
 
-    // ലോഗോയും മെയിൻ ഫോട്ടോയും ഡ്രൈവ് ID ആണെങ്കിൽ അത് ശരിയാക്കുന്നു
     const logoUrl = getImgUrl(gen.Logo);
     const mainImgUrl = getImgUrl(gen.MainImage);
     
@@ -364,7 +363,6 @@
     document.getElementById('res-link').href = gen.ResultsLink || "#";
     document.getElementById('loc-link').href = gen.Location || "#";
 
-    // യാതൊരു ഡിലേയുമില്ലാതെ സ്പിന്നർ മായ്ക്കുന്നു (സ്പീഡ് കൂട്ടാൻ)
     document.getElementById('main-loader').style.display = 'none'; 
   }
 
@@ -378,11 +376,11 @@
     if (galleryData.photos && galleryData.photos.length > 0) {
       photoBox.style.display = 'block';
       const track = document.getElementById('photo-track');
-      const photoList = [...galleryData.photos, ...galleryData.photos]; // കാർഡ്സ് തീരാതിരിക്കാൻ ഡബിൾ ആക്കുന്നു
+      const photoList = [...galleryData.photos, ...galleryData.photos]; 
       photoList.forEach(src => { 
         const img = document.createElement('img'); 
         img.src = src; 
-        img.onerror = function() { this.style.display = 'none'; }; // വർക്ക് ആവാത്തവ ഒഴിവാക്കാൻ
+        img.onerror = function() { this.style.display = 'none'; }; 
         track.appendChild(img); 
       });
       startAutoScroll();
