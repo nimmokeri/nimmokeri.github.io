@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Anek Malayalam', sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; overflow-x: hidden; }
+    
+    #main-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f4f7f6; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.4s ease; }
+    .spinner { width: 45px; height: 45px; border: 4px solid rgba(39, 174, 96, 0.2); border-top: 4px solid #27ae60; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 12px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    #main-loader p { font-size: 16px; color: #2c3e50; font-weight: 600; letter-spacing: 1px; text-align: center; padding: 0 20px; }
+    .mini-spinner { width: 30px; height: 30px; border-width: 3px; margin: 0 auto 10px; }
+
+    .sticky-header { position: sticky; top: 0; z-index: 1000; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.08); width: 100%; }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; position: relative; z-index: 1001; background: white; max-width: 1200px; margin: auto; }
+    
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 1; margin-right: 10px; cursor: pointer; user-select: none; }
+    .nav-brand img { width: 40px; height: 40px; border-radius: 4px; flex-shrink: 0; object-fit: cover; }
+    .nav-brand h2 { font-size: 15px; font-weight: 700; color: #1a252f; margin: 0; white-space: normal; line-height: 1.2; word-wrap: break-word; }
+    
+    .hamburger { cursor: pointer; color: #1a252f; padding: 5px; flex-shrink: 0; }
+    .hamburger svg { width: 28px; height: 28px; fill: currentColor; }
+
+    .nav-menu { position: absolute; top: 100%; left: 0; width: 100%; background: #1a252f; display: flex; flex-direction: column; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+    .nav-menu.active { max-height: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); } 
+    .nav-menu a { color: #ecf0f1; text-decoration: none; font-weight: 600; font-size: 15px; padding: 15px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+    .hero-section { background: white; text-align: center; padding: 40px 15px 20px; width: 100%; overflow: hidden; }
+    .hero-img { width: 100%; max-width: 1100px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin-top: 20px; aspect-ratio: 16 / 9; object-fit: cover; }
+    h1 { font-size: 1.8rem; margin: 0 0 8px; color: #2c3e50; line-height: 1.3; }
+    .hero-subtitle { font-size: clamp(10px, 3.3vw, 15px); color: #555; font-weight: 600; margin: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+    
+    .admission-cta { display: inline-block; margin: 15px auto 0; padding: 10px 30px; background: #27ae60; color: white; text-decoration: none; border-radius: 25px; font-weight: 700; font-size: 15px; transition: 0.3s; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
+    .admission-cta:hover { background: #219150; transform: translateY(-2px); }
+
+    .ticker-wrap { width: 100%; overflow: hidden; background-color: rgba(243, 156, 18, 0.1); border: 1px solid #f39c12; color: #d35400; padding: 8px 0; border-radius: 8px; margin-top: 20px; box-sizing: border-box; }
+    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 20s linear infinite; font-weight: 600; font-size: 15px; }
+    @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+
+    #gallery { padding: 50px 0; background: #fff; width: 100%; }
+    .photo-track-container { width: 100%; overflow-x: auto; white-space: nowrap; margin-bottom: 30px; padding: 10px 0; scrollbar-width: none; -ms-overflow-style: none; cursor: grab; }
+    .photo-track-container::-webkit-scrollbar { display: none; }
+    .photo-track { display: inline-flex; gap: 15px; padding: 0 15px; }
+    .photo-track img { height: 220px; width: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); pointer-events: none; object-fit: cover; }
+    .video-scroll-container { width: 100%; overflow-x: auto; display: flex; gap: 15px; padding: 10px 20px; scrollbar-width: none; }
+    .video-scroll-container::-webkit-scrollbar { display: none; }
+    .video-card { flex: 0 0 250px; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; display: flex; align-items: center; justify-content: center; }
+    .video-card iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+    section { padding: 50px 20px; max-width: 1200px; margin: auto; width: 100%; scroll-margin-top: 80px; }
+    .section-title { color: #27ae60; font-size: 1.6rem; margin-bottom: 25px; text-align: center; position: relative; padding-bottom: 10px; }
+    .section-title::after { content: ''; width: 50px; height: 3px; background: #27ae60; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); border-radius: 2px; }
+    .section-desc { color: #555; font-size: 15px; margin-bottom: 35px; text-align: justify; hyphens: auto; max-width: 900px; margin-left: auto; margin-right: auto; }
+
+    .grid-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; }
+    .info-card { background: white; padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); border: 1px solid #eef2f3; width: 100%; }
+    .avatar-container { width: 60px; height: 60px; flex-shrink: 0; border-radius: 50%; overflow: hidden; background: #e8f5e9; display: flex; align-items: center; justify-content: center; border: 2px solid #27ae60; }
+    .avatar-container img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-text { color: #27ae60; font-weight: bold; font-size: 22px; }
+    .info-content { flex-grow: 1; overflow: hidden; }
+    .info-content h4 { margin: 0; font-size: 16px; color: #2c3e50; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .info-content p { margin: 3px 0 0; color: #7f8c8d; font-size: 14px; }
+
+    .students-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; }
+    .student-box { background: white; border-radius: 12px; padding: 20px 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
+    .st-count { font-size: 26px; color: #27ae60; font-weight: 700; }
+    .total-box { background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; border-radius: 12px; padding: 15px; text-align: center; font-weight: 700; margin-top: 20px; }
+
+    .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .stat-card { background: white; padding: 25px 15px; border-radius: 12px; text-align: center; border-bottom: 4px solid #27ae60; width: 100%; }
+    .stat-number { font-size: 30px; font-weight: 700; }
+
+    .footer { background: #1a252f; color: #bdc3c7; padding: 60px 20px 20px; font-size: 14px; }
+    .footer-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 40px; margin-bottom: 20px; text-align: left; }
+    .footer-col h3 { color: white; margin-bottom: 20px; position: relative; padding-bottom: 10px; }
+    .footer-col h3::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 2px; background: #27ae60; }
+    .footer-links a { display: block; color: #bdc3c7; text-decoration: none; margin-bottom: 10px; transition: 0.3s; }
+    .footer-links a:hover { color: #27ae60; padding-left: 5px; }
+    
+    .social-links { display: flex; gap: 12px; margin-top: 20px; }
+    .social-icon { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; background: rgba(255,255,255,0.05); color: white; border-radius: 50%; text-decoration: none; transition: 0.3s; }
+    .social-icon:hover { background: #27ae60; transform: translateY(-3px); color: white; }
+    .copyright { text-align: center; color: #7f8c8d; font-size: 13px; }
+
+    @media (min-width: 768px) {
+      .info-card, .stat-card { width: calc(50% - 15px); }
+      .nav-brand h2 { font-size: 18px; white-space: nowrap; }
+      .students-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .info-card, .stat-card { width: calc(33.333% - 15px); } 
+      .students-grid { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="main-loader"><div class="spinner"></div><p>Loading...</p></div>
+
+<div class="sticky-header">
+  <div class="nav-container">
+    <a href="#home" class="nav-brand" id="nav-brand-content" title="Home"></a>
+    <div class="hamburger" id="hamburger-btn">
+      <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </div>
+  </div>
+  <div class="nav-menu" id="nav-menu">
+    <a href="#home" class="nav-link">Home</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#teachers" class="nav-link">Teachers</a>
+    <a href="#students" class="nav-link">Students</a>
+    <a href="#committee" class="nav-link">Committee</a>
+    <a href="#gallery" class="nav-link">Gallery</a>
+    <a href="#" id="nav-admission-link" class="nav-link" target="_blank">Admission</a>
+  </div>
+</div>
+
+<header id="home" class="hero-section"><div id="hero-content"></div></header>
+
+<section id="about">
+  <h2 class="section-title">സ്ഥാപനത്തെക്കുറിച്ച്</h2>
+  <p class="section-desc" id="about-desc"></p>
+  <div class="stats" id="stats-content"></div>
+</section>
+
+<section id="teachers">
+  <h2 class="section-title">അധ്യാപകർ</h2>
+  <p class="section-desc" id="teachers-desc"></p>
+  <div class="grid-container" id="teachers-grid"></div>
+</section>
+
+<section id="students">
+  <h2 class="section-title">വിദ്യാർത്ഥികൾ</h2>
+  <p class="section-desc" id="students-desc"></p>
+  <div id="students-list-container" style="max-width: 900px; margin: auto;"></div>
+</section>
+
+<section id="committee">
+  <h2 class="section-title">മാനേജിംഗ് കമ്മിറ്റി</h2>
+  <p class="section-desc" id="committee-desc"></p>
+  <div class="grid-container" id="committee-grid"></div>
+</section>
+
+<section id="gallery">
+  <h2 class="section-title">ചിത്രശാല (Gallery)</h2>
+  <div id="gallery-loader" style="text-align: center; padding: 40px 20px; color: #27ae60; font-weight: 600;">
+    <div class="spinner mini-spinner"></div>മീഡിയ ഫയലുകൾ ലോഡ് ചെയ്യുന്നു...
+  </div>
+  <div class="photo-track-container" id="photo-scroll-box" style="display: none;">
+    <div class="photo-track" id="photo-track"></div>
+  </div>
+  <div class="video-scroll-container" id="video-row" style="display: none;"></div>
+</section>
+
+<div class="footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <h3 id="footer-madrasa-name">മദ്റസ</h3>
+      <p>സമസ്ത കേരള ഇസ്‌ലാം മത വിദ്യാഭ്യാസ ബോർഡിന് കീഴിൽ പ്രവർത്തിക്കുന്ന പ്രമുഖ മതപഠന കേന്ദ്രം. ഇളം തലമുറയ്ക്ക് മതവിജ്ഞാനത്തോടൊപ്പം സദാചാര മൂല്യങ്ങളും പകർന്നുനൽകുന്നു.</p>
+      <div class="social-links">
+        <a href="#" id="fb-link" class="social-icon" title="Facebook" target="_blank"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
+        <a href="#" id="ig-link" class="social-icon" title="Instagram" target="_blank"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm3.98-10.98a1.44 1.44 0 11-2.881 0 1.44 1.44 0 012.881 0z"/></svg></a>
+        <a href="#" id="yt-link" class="social-icon" title="YouTube" target="_blank"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>ബന്ധപ്പെടുക</h3>
+      <div id="footer-contact-info"></div>
+    </div>
+    <div class="footer-col">
+      <h3>പ്രധാന ലിങ്കുകൾ</h3>
+      <div class="footer-links">
+        <a href="#about" class="nav-link">സ്ഥാപനത്തെക്കുറിച്ച്</a>
+        <a href="#gallery" class="nav-link">ചിത്രശാല (Gallery)</a>
+        <a href="#" id="footer-admission-link" target="_blank">Admission</a>
+        <a href="#" id="res-link" target="_blank">വിദ്യാർത്ഥികളുടെ റിസൾട്ട്</a>
+        <a href="#" id="loc-link" target="_blank">ഗൂഗിൾ മാപ്പ് (Location)</a>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    <p>© 2026 Nibrasul Islam Madrasa. All Rights Reserved.</p>
+    <p style="margin-top: 5px; font-weight: 600; color: #95a5a6; letter-spacing: 0.5px;">Developed by Junaid Wafy Kayakkodi</p>
+  </div>
+</div>
+
+<script>
+  // 1. താങ്കളുടെ കൃത്യമായ API URL
+  const API_URL = "https://script.google.com/macros/s/AKfycbzvat_7NEaidHtU1D6FY-PhEbJswt6tYbB5qwIPqacSf21_lv5wCNC6ijIwewH8YyIo/exec"; 
+
+  // --- Admin Access Shortcuts ---
+  document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.shiftKey && (event.key === 'a' || event.key === 'A')) {
+      event.preventDefault();
+      window.open(API_URL + "?view=admin", "_blank");
+    }
+  });
+
+  let tapCount = 0;
+  let tapTimer;
+  document.getElementById('nav-brand-content').addEventListener('click', function(event) {
+    event.preventDefault(); // മൊബൈലിൽ ലിങ്ക് ക്ലിക്ക് ആവാതിരിക്കാൻ
+    tapCount++;
+    clearTimeout(tapTimer);
+    
+    if (tapCount >= 5) {
+      tapCount = 0;
+      window.open(API_URL + "?view=admin", "_blank");
+    } else {
+      tapTimer = setTimeout(() => { tapCount = 0; }, 1000);
+    }
+  });
+
+  // --- Navbar Logic ---
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const navMenu = document.getElementById('nav-menu');
+  const navLinks = document.querySelectorAll('.nav-link, .footer-links a');
+
+  hamburgerBtn.onclick = (e) => { e.stopPropagation(); navMenu.classList.toggle('active'); };
+  navLinks.forEach(link => { link.onclick = () => { navMenu.classList.remove('active'); }; });
+  document.onclick = (e) => { if (!navMenu.contains(e.target)) navMenu.classList.remove('active'); };
+
+  // --- Gallery Auto Scroll ---
+  let autoScrollInterval;
+  const photoBox = document.getElementById('photo-scroll-box');
+  let isUserInteracting = false;
+  let interactionTimer;
+
+  function startAutoScroll() {
+    autoScrollInterval = setInterval(() => {
+      if (!isUserInteracting) {
+        photoBox.scrollLeft += 1;
+        if (photoBox.scrollLeft >= (photoBox.scrollWidth / 2)) { photoBox.scrollLeft = 0; }
+      }
+    }, 25);
+  }
+
+  function handleInteraction() {
+    isUserInteracting = true;
+    clearInterval(autoScrollInterval);
+    clearTimeout(interactionTimer);
+    interactionTimer = setTimeout(() => { isUserInteracting = false; startAutoScroll(); }, 3000);
+  }
+
+  photoBox.addEventListener('touchstart', handleInteraction, {passive: true});
+  photoBox.addEventListener('mousedown', handleInteraction);
+  photoBox.addEventListener('wheel', handleInteraction, {passive: true});
+
+
+  // --- Fetch Data from Apps Script API ---
+  fetch(API_URL + "?action=getPublicData", { redirect: "follow" })
+    .then(response => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.text();
+    })
+    .then(text => {
+      try {
+        const data = JSON.parse(text);
+        showBasicData(data);
+        showGallery(data.gallery);
+      } catch(e) {
+        console.error("JSON Parse Error:", e);
+        document.getElementById('main-loader').innerHTML = "<p style='color:red; font-weight:bold; text-align:center;'>Error! ആപ്പ് സ്ക്രിപ്റ്റിൽ <br><b>New Version</b> ആയി ഡിപ്ലോയ് ചെയ്തിട്ടുണ്ടോ എന്ന് ഉറപ്പുവരുത്തുക.</p>";
+      }
+    })
+    .catch(error => {
+      console.error("Data loading failed:", error);
+      document.getElementById('main-loader').innerHTML = "<p style='color:red; font-weight:bold;'>കണക്ഷൻ പിഴവ്! ദയവായി പേജ് റീഫ്രഷ് ചെയ്യുക.</p>";
+    });
+
+  // --- ID യെ Image URL ആക്കി മാറ്റാനുള്ള ഫംഗ്ഷൻ (Crash പരിഹാരം) ---
+  function getImgUrl(val) {
+    if (!val) return "";
+    val = val.trim();
+    // അതൊരു URL ആണെങ്കിൽ അങ്ങനെ തന്നെ കൊടുക്കുക, അല്ലെങ്കിൽ ID ആണെങ്കിൽ ഗൂഗിൾ ഡ്രൈവ് URL ആക്കുക
+    if (val.startsWith("http") || val.startsWith("data:")) return val;
+    return "https://drive.google.com/uc?export=view&id=" + val;
+  }
+
+  // --- Render Functions ---
+  function showBasicData(data) {
+    const gen = data.general;
+    const madrasaName = gen.MadrasaName || 'നിബ്റാസുൽ ഇസ്‌ലാം മദ്റസ, മൊകേരി';
+    
+    // ഫൂട്ടറിലെ പേര് ഡൈനാമിക് ആയി അപ്ഡേറ്റ് ചെയ്യുന്നു
+    document.getElementById('footer-madrasa-name').innerText = madrasaName;
+
+    // ലോഗോയും മെയിൻ ഫോട്ടോയും ഡ്രൈവ് ID ആണെങ്കിൽ അത് ശരിയാക്കുന്നു
+    const logoUrl = getImgUrl(gen.Logo);
+    const mainImgUrl = getImgUrl(gen.MainImage);
+    
+    document.getElementById('nav-brand-content').innerHTML = `<img src="${logoUrl}" alt="Logo" onerror="this.style.display='none'"><h2>${madrasaName}</h2>`;
+
+    let tickerHtml = '';
+    if (gen.Notification && gen.Notification.trim() !== '') {
+      tickerHtml = `<div class="ticker-wrap"><div class="ticker-move">${gen.Notification}</div></div>`;
+    }
+
+    document.getElementById('hero-content').innerHTML = `
+      <h1>${madrasaName}</h1>
+      <p class="hero-subtitle">Nr. മൊകേരി മഹല്ല് ജുമാ മസ്ജിദ്</p>
+      <p class="hero-subtitle">Under: സമസ്ത കേരള ഇസ്‌ലാം മത വിദ്യാഭ്യാസ ബോർഡ്</p>
+      <p class="hero-subtitle">(Reg No. ${gen.RegNo || 'നൽകിയിട്ടില്ല'})</p>
+      <div style="width: 100%; text-align: center;">
+        <a href="${gen.AdmissionLink || '#'}" class="admission-cta" target="_blank">Admission</a>
+      </div>
+      ${tickerHtml}
+      <img src="${mainImgUrl}" class="hero-img" alt="Madrasa Image" onerror="this.style.display='none'">
+    `;
+
+    document.getElementById('about-desc').innerText = gen.AboutDesc || "";
+    document.getElementById('teachers-desc').innerText = gen.TeachersDesc || "";
+    document.getElementById('students-desc').innerText = gen.StudentsDesc || "";
+    document.getElementById('committee-desc').innerText = gen.CommitteeDesc || "";
+
+    document.getElementById('stats-content').innerHTML = `
+      <div class="stat-card"><div class="stat-number">${gen.TotalStudents || '0'}</div><div class="stat-label">വിദ്യാർത്ഥികൾ</div></div>
+      <div class="stat-card"><div class="stat-number">${gen.TotalClasses || '0'}</div><div class="stat-label">ക്ലാസുകൾ</div></div>
+      <div class="stat-card"><div class="stat-number">${gen.TotalTeachers || '0'}</div><div class="stat-label">അധ്യാപകർ</div></div>
+    `;
+
+    function getAvatarHTML(name, photoData) {
+      if (photoData && photoData.trim() !== "") {
+        let imgUrl = getImgUrl(photoData);
+        return `<img src="${imgUrl}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Photo"><span class="avatar-text" style="display:none;">${name.charAt(0)}</span>`;
+      } else { 
+        return `<span class="avatar-text">${name.charAt(0)}</span>`; 
+      }
+    }
+
+    let tHtml = '';
+    if (data.teachers) {
+      data.teachers.forEach(r => { if(r[0]){ tHtml += `<div class="info-card"><div class="avatar-container">${getAvatarHTML(r[0], r[2])}</div><div class="info-content"><h4>${r[0]}</h4><p>${r[1]}</p></div></div>`; } });
+    }
+    document.getElementById('teachers-grid').innerHTML = tHtml;
+
+    let cHtml = '';
+    if (data.committee) {
+      data.committee.forEach(r => { if(r[1]){ cHtml += `<div class="info-card"><div class="avatar-container">${getAvatarHTML(r[1], r[2])}</div><div class="info-content"><p style="font-size:12px; color:#27ae60; font-weight:600; margin-bottom:2px;">${r[0]}</p><h4>${r[1]}</h4></div></div>`; } });
+    }
+    document.getElementById('committee-grid').innerHTML = cHtml;
+
+    let sHtml = '<div class="students-grid">';
+    let total = 0;
+    if (data.students) {
+      data.students.forEach(r => {
+        if(r[0]){ sHtml += `<div class="student-box"><div class="st-class">${r[0]}</div><div class="st-count">${r[1]}</div></div>`; total += parseInt(r[1]) || 0; }
+      });
+    }
+    sHtml += `</div><div class="total-box">ആകെ വിദ്യാർത്ഥികൾ: <span>${total}</span></div>`;
+    document.getElementById('students-list-container').innerHTML = sHtml;
+
+    document.getElementById('fb-link').href = gen.FacebookLink || "#";
+    document.getElementById('ig-link').href = gen.InstagramLink || "#";
+    document.getElementById('yt-link').href = gen.YouTubeLink || "#";
+    document.getElementById('nav-admission-link').href = gen.AdmissionLink || "#";
+    document.getElementById('footer-admission-link').href = gen.AdmissionLink || "#";
+
+    document.getElementById('footer-contact-info').innerHTML = `<p>📍 മൊകേരി</p><p>📞 Phone: ${gen.Phone || "നൽകിയിട്ടില്ല"}</p><p>📧 Email: ${gen.Email || "നൽകിയിട്ടില്ല"}</p>`;
+    document.getElementById('res-link').href = gen.ResultsLink || "#";
+    document.getElementById('loc-link').href = gen.Location || "#";
+
+    // യാതൊരു ഡിലേയുമില്ലാതെ സ്പിന്നർ മായ്ക്കുന്നു (സ്പീഡ് കൂട്ടാൻ)
+    document.getElementById('main-loader').style.display = 'none'; 
+  }
+
+  function showGallery(galleryData) {
+    if (!galleryData) return;
+    
+    document.getElementById('gallery-loader').style.display = 'none';
+    const photoBox = document.getElementById('photo-scroll-box');
+    const videoRow = document.getElementById('video-row');
+    
+    if (galleryData.photos && galleryData.photos.length > 0) {
+      photoBox.style.display = 'block';
+      const track = document.getElementById('photo-track');
+      const photoList = [...galleryData.photos, ...galleryData.photos]; // കാർഡ്സ് തീരാതിരിക്കാൻ ഡബിൾ ആക്കുന്നു
+      photoList.forEach(src => { 
+        const img = document.createElement('img'); 
+        img.src = src; 
+        img.onerror = function() { this.style.display = 'none'; }; // വർക്ക് ആവാത്തവ ഒഴിവാക്കാൻ
+        track.appendChild(img); 
+      });
+      startAutoScroll();
+    }
+
+    if (galleryData.videos && galleryData.videos.length > 0) {
+      videoRow.style.display = 'flex';
+      galleryData.videos.forEach(src => {
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.innerHTML = `<iframe src="${src}" allow="autoplay"></iframe>`;
+        videoRow.appendChild(card);
+      });
+    }
+  }
+</script>
+</body>
+</html>
