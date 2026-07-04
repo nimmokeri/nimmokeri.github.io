@@ -237,6 +237,12 @@
   hamburgerBtn.onclick = (e) => { e.stopPropagation(); navMenu.classList.toggle('active'); };
   navLinks.forEach(link => { link.onclick = () => { navMenu.classList.remove('active'); }; });
   document.onclick = (e) => { if (!navMenu.contains(e.target)) navMenu.classList.remove('active'); };
+   // സ്ക്രോൾ ചെയ്യുമ്പോൾ മെനു ക്ലോസ് ആവാൻ
+  window.addEventListener('scroll', () => {
+    if (navMenu.classList.contains('active')) {
+      navMenu.classList.remove('active');
+    }
+  }, { passive: true });
 
   // --- Gallery Auto Scroll ---
   let autoScrollInterval;
