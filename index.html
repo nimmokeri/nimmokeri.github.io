@@ -30,7 +30,7 @@
     .nav-menu a { color: #ecf0f1; text-decoration: none; font-weight: 600; font-size: 15px; padding: 15px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
     .hero-section { background: white; text-align: center; padding: 40px 15px 20px; width: 100%; overflow: hidden; }
-    .hero-img { width: 100%; max-width: 1100px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin-top: 20px; aspect-ratio: 16 / 9; object-fit: cover; }
+    .hero-img { width: 100%; max-width: 1100px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin-top: 20px; aspect-ratio: 16 / 9; object-fit: cover; background: #e2e8f0; }
     h1 { font-size: 1.8rem; margin: 0 0 8px; color: #2c3e50; line-height: 1.3; }
     .hero-subtitle { font-size: clamp(10px, 3.3vw, 15px); color: #555; font-weight: 600; margin: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
     
@@ -45,7 +45,7 @@
     .photo-track-container { width: 100%; overflow-x: auto; white-space: nowrap; margin-bottom: 30px; padding: 10px 0; scrollbar-width: none; -ms-overflow-style: none; cursor: grab; }
     .photo-track-container::-webkit-scrollbar { display: none; }
     .photo-track { display: inline-flex; gap: 15px; padding: 0 15px; }
-    .photo-track img { height: 220px; width: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); pointer-events: none; object-fit: cover; }
+    .photo-track img { height: 220px; width: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); pointer-events: none; object-fit: cover; background: #e2e8f0; }
     .video-scroll-container { width: 100%; overflow-x: auto; display: flex; gap: 15px; padding: 10px 20px; scrollbar-width: none; }
     .video-scroll-container::-webkit-scrollbar { display: none; }
     .video-card { flex: 0 0 250px; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; display: flex; align-items: center; justify-content: center; }
@@ -59,7 +59,7 @@
     .grid-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; }
     .info-card { background: white; padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); border: 1px solid #eef2f3; width: 100%; }
     .avatar-container { width: 60px; height: 60px; flex-shrink: 0; border-radius: 50%; overflow: hidden; background: #e8f5e9; display: flex; align-items: center; justify-content: center; border: 2px solid #27ae60; }
-    .avatar-container img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-container img { width: 100%; height: 100%; object-fit: cover; background: #e2e8f0; }
     .avatar-text { color: #27ae60; font-weight: bold; font-size: 22px; }
     .info-content { flex-grow: 1; overflow: hidden; }
     .info-content h4 { margin: 0; font-size: 16px; color: #2c3e50; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -189,10 +189,9 @@
 </div>
 
 <script>
-  // താങ്കളുടെ ആപ്പ് സ്ക്രിപ്റ്റ് API URL
   const API_URL = "https://script.google.com/macros/s/AKfycbzvat_7NEaidHtU1D6FY-PhEbJswt6tYbB5qwIPqacSf21_lv5wCNC6ijIwewH8YyIo/exec"; 
 
-  // --- Admin Access Shortcuts ---
+  // --- Admin Shortcuts ---
   document.addEventListener('keydown', function(event) {
     if (event.ctrlKey && event.shiftKey && (event.key === 'a' || event.key === 'A')) {
       event.preventDefault();
@@ -206,7 +205,6 @@
     event.preventDefault();
     tapCount++;
     clearTimeout(tapTimer);
-    
     if (tapCount >= 5) {
       tapCount = 0;
       window.open(API_URL + "?view=admin", "_blank");
@@ -219,7 +217,6 @@
   const hamburgerBtn = document.getElementById('hamburger-btn');
   const navMenu = document.getElementById('nav-menu');
   const navLinks = document.querySelectorAll('.nav-link, .footer-links a');
-
   hamburgerBtn.onclick = (e) => { e.stopPropagation(); navMenu.classList.toggle('active'); };
   navLinks.forEach(link => { link.onclick = () => { navMenu.classList.remove('active'); }; });
   document.onclick = (e) => { if (!navMenu.contains(e.target)) navMenu.classList.remove('active'); };
@@ -245,75 +242,90 @@
     clearTimeout(interactionTimer);
     interactionTimer = setTimeout(() => { isUserInteracting = false; startAutoScroll(); }, 3000);
   }
-
   photoBox.addEventListener('touchstart', handleInteraction, {passive: true});
   photoBox.addEventListener('mousedown', handleInteraction);
   photoBox.addEventListener('wheel', handleInteraction, {passive: true});
 
-  // --- Fetch Data from Apps Script API (Two-Stage Fast Loading) ---
+  function getImgUrl(val) {
+    if (!val) return "";
+    val = val.trim();
+    if (val.startsWith("http") || val.startsWith("data:")) return val;
+    return "https://drive.google.com/uc?export=view&id=" + val;
+  }
+
+  // ========================================================
+  // ⚡ ULTRA FAST DUAL-STAGE LOADING WITH BROWSER CACHING ⚡
+  // ========================================================
   
-  // ഘട്ടം 1: അടിസ്ഥാന വിവരങ്ങൾ വേഗത്തിൽ എടുക്കുന്നു
+  const localBasicCache = localStorage.getItem("madrasaBasicData");
+  const localGalleryCache = localStorage.getItem("madrasaGalleryData");
+
+  // 1. ബ്രൗസറിൽ പഴയ ഡാറ്റ ഉണ്ടെങ്കിൽ അത് വെച്ച് വെബ്‌സൈറ്റ് 0 സെക്കൻഡിൽ ഓപ്പൺ ആകുന്നു
+  if (localBasicCache) {
+    try {
+      showBasicData(JSON.parse(localBasicCache));
+      if (localGalleryCache) {
+        showGallery(JSON.parse(localGalleryCache));
+      }
+    } catch (e) { console.error("Cache rendering failed:", e); }
+  }
+
+  // 2. ബാക്ക്ഗ്രൗണ്ടിൽ സർവറിൽ നിന്ന് പുതിയ മാറ്റങ്ങൾ ഉണ്ടോ എന്ന് പരിശോധിക്കുന്നു
   fetch(API_URL + "?action=getBasicData", { redirect: "follow" })
     .then(response => {
-      if (!response.ok) throw new Error("Network response was not ok");
+      if (!response.ok) throw new Error("Network error");
       return response.text();
     })
     .then(text => {
       try {
         const data = JSON.parse(text);
-        
-        // ഇത് വർക്ക് ആവുന്നതോടെ മെയിൻ ലോഡർ മായും (വളരെ വേഗത്തിൽ)
-        showBasicData(data); 
+        localStorage.setItem("madrasaBasicData", JSON.stringify(data)); // കാഷെ അപ്ഡേറ്റ് ചെയ്യുന്നു
+        showBasicData(data); // പുതിയ മാറ്റങ്ങൾ സ്ക്രീനിൽ കാണിക്കുന്നു
 
-        // ഘട്ടം 2: അതിനുശേഷം ബാക്ക്ഗ്രൗണ്ടിൽ ഗാലറി ലോഡ് ചെയ്യാൻ തുടങ്ങുന്നു
+        // ബാക്ക്ഗ്രൗണ്ടിൽ ഗാലറി ലോഡ് ചെയ്യുന്നു
         const folderId = data.general.GalleryFolderID;
         if(folderId) {
           fetch(API_URL + "?action=getGalleryData&folderId=" + folderId, { redirect: "follow" })
             .then(res => res.json())
-            .then(galleryData => showGallery(galleryData))
+            .then(galleryData => {
+              localStorage.setItem("madrasaGalleryData", JSON.stringify(galleryData));
+              showGallery(galleryData);
+            })
             .catch(err => {
-              console.error("Gallery failed:", err);
+              console.error(err);
               document.getElementById('gallery-loader').innerText = "ഗാലറി ലോഡ് ചെയ്യുന്നതിൽ പിഴവ്.";
             });
         } else {
-           document.getElementById('gallery-loader').style.display = 'none';
+          document.getElementById('gallery-loader').style.display = 'none';
         }
-
       } catch(e) {
-        console.error("JSON Parse Error:", e);
-        document.getElementById('main-loader').innerHTML = "<p style='color:red; font-weight:bold; text-align:center;'>Error! ആപ്പ് സ്ക്രിപ്റ്റിൽ <br><b>New Version</b> ആയി ഡിപ്ലോയ് ചെയ്തിട്ടുണ്ടോ എന്ന് ഉറപ്പുവരുത്തുക.</p>";
+        console.error(e);
+        if (!localBasicCache) {
+          document.getElementById('main-loader').innerHTML = "<p style='color:red;'>Error! Deployment version പരിശോധിക്കുക.</p>";
+        }
       }
     })
     .catch(error => {
-      console.error("Data loading failed:", error);
-      document.getElementById('main-loader').innerHTML = "<p style='color:red; font-weight:bold;'>കണക്ഷൻ പിഴവ്! ദയവായി പേജ് റീഫ്രഷ് ചെയ്യുക.</p>";
+      console.error(error);
+      if (!localBasicCache) {
+        document.getElementById('main-loader').innerHTML = "<p style='color:red; font-weight:bold;'>കണക്ഷൻ പിഴവ്! പേജ് റീഫ്രഷ് ചെയ്യുക.</p>";
+      }
     });
-
-  // --- GitHub Pages-ൽ ഇമേജുകൾ ക്രാഷ് ആവാതെ കാണിക്കാനുള്ള സുരക്ഷിതമായ ലിങ്ക് ഫോർമാറ്റ് ഹെൽപ്പർ ---
-  function getImgUrl(val) {
-    if (!val) return "";
-    val = val.trim();
-    if (val.startsWith("http") || val.startsWith("data:")) return val;
-    // ഗൂഗിൾ ഡ്രൈവ് ID-കളെ ക്രാഷ് ആവാത്ത തരത്തിലുള്ള സുരക്ഷിത ലിങ്കുകളാക്കി മാറ്റുന്നു
-    return "https://lh3.googleusercontent.com/d/" + val;
-  }
 
   // --- Render Functions ---
   function showBasicData(data) {
     const gen = data.general;
     const madrasaName = gen.MadrasaName || 'നിബ്റാസുൽ ഇസ്‌ലാം മദ്റസ, മൊകേരി';
     
-    // ഫൂട്ടറിലെ മദ്റസയുടെ പേര് ഡൈനാമിക് ആയി നൽകുന്നു
     document.getElementById('footer-madrasa-name').innerText = madrasaName;
 
     const logoUrl = getImgUrl(gen.Logo);
     const mainImgUrl = getImgUrl(gen.MainImage);
-
+    
+    // Favicon ഫീച്ചർ തത്സമയം ആക്റ്റീവ് ആക്കുന്നു
     if (logoUrl) {
       const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-      link.type = 'image/x-icon';
-      link.rel = 'shortcut icon';
-      link.href = logoUrl;
+      link.type = 'image/x-icon'; link.rel = 'shortcut icon'; link.href = logoUrl;
       document.getElementsByTagName('head')[0].appendChild(link);
     }
     
@@ -388,6 +400,7 @@
     document.getElementById('res-link').href = gen.ResultsLink || "#";
     document.getElementById('loc-link').href = gen.Location || "#";
 
+    // ലോഡർ ഓഫ് ചെയ്യുന്നു
     document.getElementById('main-loader').style.display = 'none'; 
   }
 
@@ -401,6 +414,7 @@
     if (galleryData.photos && galleryData.photos.length > 0) {
       photoBox.style.display = 'block';
       const track = document.getElementById('photo-track');
+      track.innerHTML = ''; // ഡാറ്റ രണ്ടുതവണ ലോഡ് ചെയ്യുമ്പോൾ ഡ്യൂപ്ലിക്കേഷൻ ഒഴിവാക്കാൻ
       const photoList = [...galleryData.photos, ...galleryData.photos]; 
       photoList.forEach(src => { 
         const img = document.createElement('img'); 
@@ -408,11 +422,13 @@
         img.onerror = function() { this.style.display = 'none'; }; 
         track.appendChild(img); 
       });
+      clearInterval(autoScrollInterval);
       startAutoScroll();
     }
 
     if (galleryData.videos && galleryData.videos.length > 0) {
       videoRow.style.display = 'flex';
+      videoRow.innerHTML = ''; // ഡ്യൂപ്ലിക്കേഷൻ ഒഴിവാക്കാൻ
       galleryData.videos.forEach(src => {
         const card = document.createElement('div');
         card.className = 'video-card';
