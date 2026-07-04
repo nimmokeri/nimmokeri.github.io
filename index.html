@@ -273,10 +273,8 @@
   function getImgUrl(val) {
     if (!val) return "";
     val = val.trim();
-    
     // അത് നേരത്തെ തന്നെ ഒരു ലിങ്ക് ആണെങ്കിൽ അങ്ങനെ തന്നെ നൽകുക
     if (val.startsWith("http") || val.startsWith("data:")) return val;
-    
     // ഗൂഗിൾ ഡ്രൈവ് ID-കളെ ക്രാഷ് ആവാത്ത Thumbnail ലിങ്കുകളാക്കി മാറ്റുന്നു (കൂടാതെ സൈസ് 400px ആക്കി കുറയ്ക്കുകയും ചെയ്യുന്നു)
     return "https://drive.google.com/thumbnail?id=" + val + "&sz=w400";
   }
