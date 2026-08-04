@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Modern, richer dark slate colors */
             --bg-dark: #020617; 
             --bg-light: #0f172a;
             --gold: #fbbf24;
@@ -22,12 +21,12 @@
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-light);
-            overflow-x: hidden;
-            min-height: 100vh;
+            /* STRICT NO SCROLL FOR DESKTOP PRESENTATIONS */
+            overflow: hidden; 
+            height: 100vh;
             position: relative;
         }
 
-        /* 1. Subtle Islamic Geometric Pattern Overlay */
         .islamic-pattern {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -36,7 +35,6 @@
             pointer-events: none;
         }
 
-        /* 2. More Noticeable & Colorful Moving Blobs */
         .bg-blobs {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -48,30 +46,14 @@
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px); /* Less blur for more color pop */
-            opacity: 0.45; /* Higher opacity */
-            animation: moveBlobs 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); /* Faster animation */
+            filter: blur(80px);
+            opacity: 0.45; 
+            animation: moveBlobs 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .blob-1 {
-            width: 500px; height: 500px;
-            background: #10b981; /* Emerald Green */
-            top: -10%; left: -10%;
-        }
-        
-        .blob-2 {
-            width: 600px; height: 600px;
-            background: #f59e0b; /* Rich Gold/Amber */
-            bottom: -20%; right: -10%;
-            animation-delay: -3s;
-        }
-
-        .blob-3 {
-            width: 450px; height: 450px;
-            background: #06b6d4; /* Deep Cyan/Teal */
-            top: 30%; left: 40%;
-            animation-duration: 20s;
-        }
+        .blob-1 { width: 50vw; height: 50vw; max-width: 500px; max-height: 500px; background: #10b981; top: -10%; left: -10%; }
+        .blob-2 { width: 60vw; height: 60vw; max-width: 600px; max-height: 600px; background: #f59e0b; bottom: -20%; right: -10%; animation-delay: -3s; }
+        .blob-3 { width: 40vw; height: 40vw; max-width: 450px; max-height: 450px; background: #06b6d4; top: 30%; left: 40%; animation-duration: 20s; }
 
         @keyframes moveBlobs {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); }
@@ -80,21 +62,15 @@
             100% { transform: translate(10vw, -20vh) scale(1.1) rotate(20deg); }
         }
 
-        /* 3. Floating Festive Elements (Crescents & Stars) */
         .festive-particles {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: -1; overflow: hidden;
         }
 
         .particle {
-            position: absolute;
-            bottom: -100px; /* Start below the screen */
-            color: rgba(251, 191, 36, 0.7); /* Golden color */
-            font-size: 2rem;
-            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.8)); /* Glowing effect */
+            position: absolute; bottom: -100px;
+            color: rgba(251, 191, 36, 0.7);
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.8));
             animation: floatUp 15s infinite linear;
         }
 
@@ -106,157 +82,133 @@
             100% { transform: translateY(-110vh) rotate(360deg) scale(0.8); opacity: 0; }
         }
 
-        /* Basic Setup & Cards */
         .slide {
             display: none;
-            min-height: 100vh;
+            height: 100vh; /* Force exactly 100% of screen height */
             width: 100vw;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
+            padding: 2vh 2vw; /* Responsive padding */
             box-sizing: border-box;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 0.6s ease-out;
             z-index: 10;
         }
 
-        .slide.active {
-            display: flex;
-        }
+        .slide.active { display: flex; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: scale(0.98); }
             to { opacity: 1; transform: scale(1); }
         }
 
-        h1 { color: var(--gold); font-weight: 800; font-size: 2.8rem; margin-bottom: 5px; text-shadow: 0 5px 20px rgba(0,0,0,0.5); letter-spacing: 1px;}
-        h2 { font-size: 1.5rem; margin-top: 0; font-weight: 400; color: #f1f5f9; }
-        h3 { color: var(--gold); margin-bottom: 15px; font-weight: 600; }
-        p { margin: 5px 0; color: var(--text-muted); }
-
-        .subtitle { font-size: 1.1rem; color: var(--gold); margin-bottom: 30px; letter-spacing: 3px; font-weight: 600;}
+        /* Dynamic Font Sizing to fit any projector */
+        h1 { color: var(--gold); font-weight: 800; font-size: clamp(1.8rem, 4vh, 2.8rem); margin-bottom: 0.5vh; text-shadow: 0 5px 15px rgba(0,0,0,0.5); letter-spacing: 1px;}
+        h2 { font-size: clamp(1.2rem, 2.5vh, 1.8rem); margin-top: 0; font-weight: 800; text-transform: uppercase; color: #f1f5f9; }
+        .subtitle { font-size: clamp(0.9rem, 1.8vh, 1.1rem); color: var(--gold); margin-bottom: 2vh; letter-spacing: 2px; font-weight: 600;}
+        p { margin: 1vh 0 2vh 0; font-size: clamp(0.9rem, 1.8vh, 1.1rem); color: var(--text-muted); }
 
         .btn {
             background: linear-gradient(135deg, #f59e0b, #fbbf24);
-            color: #020617;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 800;
-            margin-top: 35px;
+            color: #020617; border: none;
+            padding: 1.5vh 3vw;
+            font-size: clamp(0.9rem, 1.8vh, 1.1rem);
+            border-radius: 50px; cursor: pointer; font-weight: 800;
+            margin-top: 2vh;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
-            font-family: 'Poppins', sans-serif;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+            text-transform: uppercase; letter-spacing: 1px;
         }
+        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 25px rgba(245, 158, 11, 0.5); }
+        .btn:disabled { background: #334155; color: #64748b; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .btn:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.5);
-        }
-
-        .btn:disabled {
-            background: #334155;
-            color: #64748b;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
+        /* Presentation Optimized Grid */
         .grid-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
+            gap: 2vw; /* Responsive gap */
             justify-content: center;
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
+        }
+
+        /* Lock layout side-by-side on desktop/laptop */
+        @media (min-width: 768px) {
+            .grid-container { flex-wrap: nowrap; }
+            .card, .spinner-section { flex: 1; max-width: 450px; }
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid rgba(251, 191, 36, 0.15);
-            border-top: 2px solid var(--gold);
-            border-radius: 20px;
-            padding: 30px 25px;
-            width: 100%;
-            max-width: 350px;
+            border-top: 3px solid var(--gold);
+            border-radius: 15px;
+            padding: 2vh 2vw; /* Scaled padding to prevent overflow */
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
             text-align: left;
         }
 
-        .card h3 { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; letter-spacing: 1px; font-size: 1.4rem;}
+        .card h3 { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1vh; letter-spacing: 1px; font-size: clamp(1.2rem, 2.5vh, 1.6rem); margin: 0 0 1vh 0;}
         
-        .role-title { font-size: 0.85rem; color: var(--text-muted); margin-top: 18px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;}
-        .name-item { font-size: 1.1rem; font-weight: 600; margin-left: 10px; margin-top: 5px; color: #f8fafc;}
+        /* Compact typography for Final Overview */
+        .role-title { font-size: clamp(0.7rem, 1.4vh, 0.85rem); color: var(--text-muted); margin-top: 1.5vh; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;}
+        .name-item { font-size: clamp(0.9rem, 1.8vh, 1.1rem); font-weight: 600; margin-left: 10px; margin-top: 0.5vh; color: #f8fafc;}
 
-        /* Spinner Styles */
+        /* Spinner Styles - Compacted for Presentation */
         .spinner-section {
             background: var(--card-bg);
-            padding: 25px;
-            border-radius: 20px;
-            margin: 15px 0;
-            width: 100%;
-            max-width: 400px;
+            padding: 2vh 2vw;
+            border-radius: 15px;
+            margin: 1vh 0;
             border: 1px solid rgba(251, 191, 36, 0.2);
             backdrop-filter: blur(12px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
+        .spinner-section h3 { margin: 0 0 1.5vh 0; font-size: clamp(1rem, 2vh, 1.2rem); color: #f8fafc; font-weight: 600;}
 
         .spinner-window {
-            height: 75px;
+            height: 60px; /* Compacted height */
             overflow: hidden;
             background: rgba(2, 6, 23, 0.7);
-            border-radius: 12px;
+            border-radius: 10px;
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 1.5vh;
             border: 1px solid var(--gold-muted);
-            box-shadow: inset 0 5px 20px rgba(0,0,0,0.5);
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        .spinner-window::before, .spinner-window::after {
-            content: ''; position: absolute; left: 0; right: 0; height: 25px; z-index: 2; pointer-events: none;
-        }
+        .spinner-window::before, .spinner-window::after { content: ''; position: absolute; left: 0; right: 0; height: 15px; z-index: 2; pointer-events: none; }
         .spinner-window::before { top: 0; background: linear-gradient(to bottom, rgba(2, 6, 23, 0.95), transparent); }
         .spinner-window::after { bottom: 0; background: linear-gradient(to top, rgba(2, 6, 23, 0.95), transparent); }
 
-        .spinner-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
+        .spinner-list { list-style: none; padding: 0; margin: 0; }
         .spinner-list li {
-            height: 75px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #f1f5f9;
+            height: 60px; /* Matches spinner-window height */
+            display: flex; align-items: center; justify-content: center;
+            font-size: clamp(1rem, 2vh, 1.15rem); font-weight: 600; color: #f1f5f9;
         }
 
+        /* Allow scrolling ONLY on mobile phones if absolutely necessary */
+        @media (max-width: 767px) {
+            body { overflow-y: auto; height: auto; }
+            .slide { min-height: 100vh; height: auto; justify-content: center; padding: 5vh 5vw; }
+            .grid-container { flex-wrap: wrap; }
+            .card, .spinner-section { max-width: 100%; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Beautiful Backgrounds -->
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
     </div>
-    
     <div class="islamic-pattern"></div>
 
-    <!-- Floating Festive Elements -->
     <div class="festive-particles">
-        <div class="particle" style="left: 10%; animation-duration: 14s; animation-delay: 0s; font-size: 2.5rem;">☪</div>
+        <div class="particle" style="left: 10%; animation-duration: 14s; font-size: 2.5rem;">☪</div>
         <div class="particle" style="left: 25%; animation-duration: 12s; animation-delay: 4s; font-size: 1.5rem;">✨</div>
         <div class="particle" style="left: 45%; animation-duration: 16s; animation-delay: 2s; font-size: 2rem;">⭐</div>
         <div class="particle" style="left: 65%; animation-duration: 13s; animation-delay: 6s; font-size: 3rem;">☪</div>
@@ -266,7 +218,7 @@
 
     <!-- Slide 1: Welcome -->
     <div id="slide-1" class="slide active">
-        <div style="font-size: 4rem; margin-bottom: -10px; color: var(--gold); filter: drop-shadow(0 0 15px rgba(251,191,36,0.6));">☪</div>
+        <div style="font-size: clamp(2rem, 6vh, 4rem); margin-bottom: 0; color: var(--gold); filter: drop-shadow(0 0 15px rgba(251,191,36,0.6));">☪</div>
         <h1>NIM MEELAD FEST 2026</h1>
         <h2>NIBRASUL ISLAM MADRASA MOKERI</h2>
         <div class="subtitle">REG: 2368 UNDER: SKIMVB</div>
@@ -275,17 +227,17 @@
 
     <!-- Slide 2: Boys Leaders -->
     <div id="slide-2" class="slide">
-        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Boys Leaders</h2>
+        <h2 style="color: var(--gold); margin-bottom: 3vh;">Boys Leaders</h2>
         <div class="grid-container">
             <div class="card" style="text-align: center;">
                 <h3>GROUP I</h3>
-                <div class="name-item" style="margin-top: 25px; font-size: 1.2rem;">MUHAMMAD ASHFIN (L)</div>
-                <div class="name-item" style="margin-bottom: 10px; margin-top: 15px; font-size: 1.2rem;">MUHAMMAD AMEEN KP (AL)</div>
+                <div class="name-item" style="margin-top: 3vh;">MUHAMMAD ASHFIN (L)</div>
+                <div class="name-item">MUHAMMAD AMEEN KP (AL)</div>
             </div>
             <div class="card" style="text-align: center;">
                 <h3>GROUP II</h3>
-                <div class="name-item" style="margin-top: 25px; font-size: 1.2rem;">MUHAMMAD AMEEN KK (L)</div>
-                <div class="name-item" style="margin-bottom: 10px; margin-top: 15px; font-size: 1.2rem;">MUHAMMAD KK (AL)</div>
+                <div class="name-item" style="margin-top: 3vh;">MUHAMMAD AMEEN KK (L)</div>
+                <div class="name-item">MUHAMMAD KK (AL)</div>
             </div>
         </div>
         <button class="btn" onclick="nextSlide(3)">View Girls Leaders</button>
@@ -293,17 +245,17 @@
 
     <!-- Slide 3: Girls Leaders -->
     <div id="slide-3" class="slide">
-        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Girls Leaders</h2>
+        <h2 style="color: var(--gold); margin-bottom: 3vh;">Girls Leaders</h2>
         <div class="grid-container">
             <div class="card" style="text-align: center;">
                 <h3>GROUP I</h3>
-                <div class="name-item" style="margin-top: 25px; font-size: 1.2rem;">MINHA FATHIMA (L)</div>
-                <div class="name-item" style="margin-bottom: 10px; margin-top: 15px; font-size: 1.2rem;">MEHARIN N NOUSHAD (AL)</div>
+                <div class="name-item" style="margin-top: 3vh;">MINHA FATHIMA (L)</div>
+                <div class="name-item">MEHARIN N NOUSHAD (AL)</div>
             </div>
             <div class="card" style="text-align: center;">
                 <h3>GROUP II</h3>
-                <div class="name-item" style="margin-top: 25px; font-size: 1.2rem;">THAHLIYA FATHIMA (L)</div>
-                <div class="name-item" style="margin-bottom: 10px; margin-top: 15px; font-size: 1.2rem;">FATHIMA ZANHA (AL)</div>
+                <div class="name-item" style="margin-top: 3vh;">THAHLIYA FATHIMA (L)</div>
+                <div class="name-item">FATHIMA ZANHA (AL)</div>
             </div>
         </div>
         <button class="btn" onclick="nextSlide(4)">Select Coordinators</button>
@@ -311,28 +263,28 @@
 
     <!-- Slide 4: Coordinator Spinners -->
     <div id="slide-4" class="slide">
-        <h2 style="color: var(--gold); font-size: 2.2rem; font-weight: 800; text-transform: uppercase;">Group Coordinators</h2>
-        <p style="margin-bottom: 30px; font-size: 1.1rem;">Selecting coordinators from the teachers list...</p>
+        <h2 style="color: var(--gold);">Group Coordinators</h2>
+        <p>Selecting coordinators from the teachers list...</p>
         
         <div class="grid-container">
             <div class="spinner-section">
-                <h3 style="font-size: 1.2rem; color: #f8fafc; font-weight: 600;">Group I Coordinator</h3>
+                <h3>Group I Coordinator</h3>
                 <div class="spinner-window">
                     <ul class="spinner-list" id="coord-spinner-1">
                         <li style="color: var(--text-muted);">Ready...</li>
                     </ul>
                 </div>
-                <button class="btn" id="btn-spin-1" style="margin-top:0; font-size:0.95rem; padding: 12px 25px;" onclick="spinCoordinator(1)">Spin for Group I</button>
+                <button class="btn" id="btn-spin-1" style="margin-top:0; padding: 1vh 2vw;" onclick="spinCoordinator(1)">Spin for Group I</button>
             </div>
 
             <div class="spinner-section">
-                <h3 style="font-size: 1.2rem; color: #f8fafc; font-weight: 600;">Group II Coordinator</h3>
+                <h3>Group II Coordinator</h3>
                 <div class="spinner-window">
                     <ul class="spinner-list" id="coord-spinner-2">
                         <li style="color: var(--text-muted);">Ready...</li>
                     </ul>
                 </div>
-                <button class="btn" id="btn-spin-2" style="margin-top:0; font-size:0.95rem; padding: 12px 25px;" onclick="spinCoordinator(2)">Spin for Group II</button>
+                <button class="btn" id="btn-spin-2" style="margin-top:0; padding: 1vh 2vw;" onclick="spinCoordinator(2)">Spin for Group II</button>
             </div>
         </div>
         
@@ -341,12 +293,12 @@
 
     <!-- Slide 5: Group Name Spinners -->
     <div id="slide-5" class="slide">
-        <h2 style="color: var(--gold); font-size: 2.2rem; font-weight: 800; text-transform: uppercase;">Group Names</h2>
-        <p style="margin-bottom: 30px; font-size: 1.1rem;">Assigning names for each group...</p>
+        <h2 style="color: var(--gold);">Group Names</h2>
+        <p>Assigning names for each group...</p>
         
         <div class="grid-container">
             <div class="spinner-section">
-                <h3 style="font-size: 1.2rem; color: #f8fafc; font-weight: 600;">Group I Name</h3>
+                <h3>Group I Name</h3>
                 <div class="spinner-window">
                     <ul class="spinner-list" id="name-spinner-1">
                         <li style="color: var(--text-muted);">Ready...</li>
@@ -355,7 +307,7 @@
             </div>
 
             <div class="spinner-section">
-                <h3 style="font-size: 1.2rem; color: #f8fafc; font-weight: 600;">Group II Name</h3>
+                <h3>Group II Name</h3>
                 <div class="spinner-window">
                     <ul class="spinner-list" id="name-spinner-2">
                         <li style="color: var(--text-muted);">Ready...</li>
@@ -370,41 +322,41 @@
 
     <!-- Slide 6: Final Overview -->
     <div id="slide-6" class="slide">
-        <div style="font-size: 3rem; margin-bottom: -15px; color: var(--gold); filter: drop-shadow(0 0 15px rgba(251,191,36,0.6));">☪</div>
-        <h1 style="font-size: 2.2rem;">NIM MEELAD FEST 2026</h1>
-        <h2 style="color: var(--gold); margin-bottom: 35px; letter-spacing: 2px; font-weight: 800;">FINAL GROUPS OVERVIEW</h2>
+        <div style="font-size: clamp(1.8rem, 4vh, 2.5rem); margin-bottom: 0; color: var(--gold); filter: drop-shadow(0 0 10px rgba(251,191,36,0.6));">☪</div>
+        <h1>NIM MEELAD FEST 2026</h1>
+        <div class="subtitle" style="margin-bottom: 2vh;">FINAL GROUPS OVERVIEW</div>
         
         <div class="grid-container">
-            <div class="card" style="border-top: 4px solid var(--gold); background: rgba(2, 6, 23, 0.5);">
-                <h3 id="final-g1-name" style="font-size: 1.8rem; color: var(--gold); border: none; padding-bottom: 0;">GROUP I</h3>
-                <div class="role-title" style="margin-top: 10px;">COORDINATOR</div>
-                <div class="name-item" id="final-g1-coord" style="color: #fbbf24; font-size: 1.2rem; font-weight: 800;">-</div>
+            <div class="card" style="background: rgba(2, 6, 23, 0.5);">
+                <h3 id="final-g1-name" style="color: var(--gold); border: none;">GROUP I</h3>
+                <div class="role-title" style="margin-top: 0;">COORDINATOR</div>
+                <div class="name-item" id="final-g1-coord" style="color: #fbbf24;">-</div>
                 
-                <div class="role-title" style="margin-top: 25px;">BOYS LEADERS</div>
+                <div class="role-title">BOYS LEADERS</div>
                 <div class="name-item">MUHAMMAD ASHFIN (L)</div>
                 <div class="name-item">MUHAMMAD AMEEN KP (AL)</div>
                 
-                <div class="role-title" style="margin-top: 20px;">GIRLS LEADERS</div>
+                <div class="role-title">GIRLS LEADERS</div>
                 <div class="name-item">MINHA FATHIMA (L)</div>
                 <div class="name-item">MEHARIN N NOUSHAD (AL)</div>
             </div>
 
-            <div class="card" style="border-top: 4px solid var(--gold); background: rgba(2, 6, 23, 0.5);">
-                <h3 id="final-g2-name" style="font-size: 1.8rem; color: var(--gold); border: none; padding-bottom: 0;">GROUP II</h3>
-                <div class="role-title" style="margin-top: 10px;">COORDINATOR</div>
-                <div class="name-item" id="final-g2-coord" style="color: #fbbf24; font-size: 1.2rem; font-weight: 800;">-</div>
+            <div class="card" style="background: rgba(2, 6, 23, 0.5);">
+                <h3 id="final-g2-name" style="color: var(--gold); border: none;">GROUP II</h3>
+                <div class="role-title" style="margin-top: 0;">COORDINATOR</div>
+                <div class="name-item" id="final-g2-coord" style="color: #fbbf24;">-</div>
                 
-                <div class="role-title" style="margin-top: 25px;">BOYS LEADERS</div>
+                <div class="role-title">BOYS LEADERS</div>
                 <div class="name-item">MUHAMMAD AMEEN KK (L)</div>
                 <div class="name-item">MUHAMMAD KK (AL)</div>
                 
-                <div class="role-title" style="margin-top: 20px;">GIRLS LEADERS</div>
+                <div class="role-title">GIRLS LEADERS</div>
                 <div class="name-item">THAHLIYA FATHIMA (L)</div>
                 <div class="name-item">FATHIMA ZANHA (AL)</div>
             </div>
         </div>
         
-        <button class="btn" onclick="location.reload()" style="margin-top: 40px; background: transparent; border: 2px solid var(--gold); color: var(--gold); box-shadow: none;">Restart App</button>
+        <button class="btn" onclick="location.reload()" style="background: transparent; border: 1px solid var(--gold); color: var(--gold); box-shadow: none;">Restart App</button>
     </div>
 
     <script>
@@ -479,7 +431,7 @@
             
             ul.style.transition = `transform ${durationSec}s cubic-bezier(0.15, 0.85, 0.1, 1)`;
             
-            const itemHeight = 75; // Adjusted item height
+            const itemHeight = 60; /* Matches the new compact 60px height */
             const distance = -((totalItems - 1) * itemHeight);
             ul.style.transform = `translateY(${distance}px)`;
 
@@ -512,17 +464,17 @@
         function spinNames() {
             const btn = document.getElementById('btn-spin-names');
             btn.disabled = true;
-            btn.innerText = "Assigning Names...";
+            btn.innerText = "Assigning...";
 
             const total1 = buildSpinnerDOM('name-spinner-1', groupNames, targetName1, 30);
             const total2 = buildSpinnerDOM('name-spinner-2', groupNames, targetName2, 45); 
             
             executeSpin('name-spinner-1', total1, 7, () => {
-                document.getElementById('final-g1-name').innerText = "GROUP I: " + targetName1;
+                document.getElementById('final-g1-name').innerText = "GROUP I - " + targetName1;
             });
 
             executeSpin('name-spinner-2', total2, 10, () => {
-                document.getElementById('final-g2-name').innerText = "GROUP II: " + targetName2;
+                document.getElementById('final-g2-name').innerText = "GROUP II - " + targetName2;
                 btn.style.display = 'none';
                 document.getElementById('btn-next-5').style.display = 'inline-block';
             });
