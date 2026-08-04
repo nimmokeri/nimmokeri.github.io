@@ -158,7 +158,7 @@
         .card h3 { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; letter-spacing: 1px;}
         
         .role-title { font-size: 0.8rem; color: var(--text-muted); margin-top: 18px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;}
-        .name-item { font-size: 1.05rem; font-weight: 400; margin-left: 10px; margin-top: 5px; color: #e2e8f0;}
+        .name-item { font-size: 1.05rem; font-weight: 400; margin-left: 10px; margin-top: 8px; color: #e2e8f0;}
 
         /* Spinner Styles */
         .spinner-section {
@@ -221,37 +221,47 @@
         <h1>NIM MEELAD FEST 2026</h1>
         <h2>NIBRASUL ISLAM MADRASA MOKERI</h2>
         <div class="subtitle">REG: 2368 UNDER: SKIMVB</div>
-        <button class="btn" onclick="startAppAndFullscreen()">View Groups</button>
+        <button class="btn" onclick="startAppAndFullscreen()">Launch Event</button>
     </div>
 
-    <!-- Slide 2: Group Leaders -->
+    <!-- Slide 2: Boys Leaders -->
     <div id="slide-2" class="slide">
-        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2rem; font-weight: 600;">Group Leaders</h2>
+        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2.2rem; font-weight: 600; letter-spacing: 1px;">Boys Leaders</h2>
         <div class="grid-container">
-            <div class="card">
+            <div class="card" style="text-align: center;">
                 <h3>GROUP I</h3>
-                <div class="role-title">BOYS</div>
-                <div class="name-item">MUHAMMAD ASHFIN (L)</div>
-                <div class="name-item">MUHAMMAD AMEEN KP (AL)</div>
-                <div class="role-title">GIRLS</div>
-                <div class="name-item">MINHA FATHIMA (L)</div>
-                <div class="name-item">MEHARIN N NOUSHAD (AL)</div>
+                <div class="name-item" style="margin-top: 20px;">MUHAMMAD ASHFIN (L)</div>
+                <div class="name-item" style="margin-bottom: 10px;">MUHAMMAD AMEEN KP (AL)</div>
             </div>
-            <div class="card">
+            <div class="card" style="text-align: center;">
                 <h3>GROUP II</h3>
-                <div class="role-title">BOYS</div>
-                <div class="name-item">MUHAMMAD AMEEN KK (L)</div>
-                <div class="name-item">MUHAMMAD KK (AL)</div>
-                <div class="role-title">GIRLS</div>
-                <div class="name-item">THAHLIYA FATHIMA (L)</div>
-                <div class="name-item">FATHIMA ZANHA (AL)</div>
+                <div class="name-item" style="margin-top: 20px;">MUHAMMAD AMEEN KK (L)</div>
+                <div class="name-item" style="margin-bottom: 10px;">MUHAMMAD KK (AL)</div>
             </div>
         </div>
-        <button class="btn" onclick="nextSlide(3)">Select Coordinators</button>
+        <button class="btn" onclick="nextSlide(3)">View Girls Leaders</button>
     </div>
 
-    <!-- Slide 3: Coordinator Spinners -->
+    <!-- Slide 3: Girls Leaders -->
     <div id="slide-3" class="slide">
+        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2.2rem; font-weight: 600; letter-spacing: 1px;">Girls Leaders</h2>
+        <div class="grid-container">
+            <div class="card" style="text-align: center;">
+                <h3>GROUP I</h3>
+                <div class="name-item" style="margin-top: 20px;">MINHA FATHIMA (L)</div>
+                <div class="name-item" style="margin-bottom: 10px;">MEHARIN N NOUSHAD (AL)</div>
+            </div>
+            <div class="card" style="text-align: center;">
+                <h3>GROUP II</h3>
+                <div class="name-item" style="margin-top: 20px;">THAHLIYA FATHIMA (L)</div>
+                <div class="name-item" style="margin-bottom: 10px;">FATHIMA ZANHA (AL)</div>
+            </div>
+        </div>
+        <button class="btn" onclick="nextSlide(4)">Select Coordinators</button>
+    </div>
+
+    <!-- Slide 4: Coordinator Spinners -->
+    <div id="slide-4" class="slide">
         <h2 style="color: var(--gold); font-size: 2rem; font-weight: 600;">Group Coordinators</h2>
         <p style="margin-bottom: 25px;">Selecting coordinators from the teachers list...</p>
         
@@ -277,11 +287,11 @@
             </div>
         </div>
         
-        <button class="btn" id="btn-next-3" style="display: none;" onclick="nextSlide(4)">Next Step: Group Names</button>
+        <button class="btn" id="btn-next-4" style="display: none;" onclick="nextSlide(5)">Next Step: Group Names</button>
     </div>
 
-    <!-- Slide 4: Group Name Spinners -->
-    <div id="slide-4" class="slide">
+    <!-- Slide 5: Group Name Spinners -->
+    <div id="slide-5" class="slide">
         <h2 style="color: var(--gold); font-size: 2rem; font-weight: 600;">Group Names</h2>
         <p style="margin-bottom: 25px;">Assigning names for each group...</p>
         
@@ -306,11 +316,11 @@
         </div>
 
         <button class="btn" id="btn-spin-names" onclick="spinNames()">Spin Team Names</button>
-        <button class="btn" id="btn-next-4" style="display: none;" onclick="nextSlide(5)">Go to Overview</button>
+        <button class="btn" id="btn-next-5" style="display: none;" onclick="nextSlide(6)">Go to Overview</button>
     </div>
 
-    <!-- Slide 5: Final Overview -->
-    <div id="slide-5" class="slide">
+    <!-- Slide 6: Final Overview -->
+    <div id="slide-6" class="slide">
         <h1 style="font-size: 2rem;">NIM MEELAD FEST 2026</h1>
         <h2 style="color: var(--gold); margin-bottom: 30px; letter-spacing: 1px;">FINAL GROUPS OVERVIEW</h2>
         
@@ -366,7 +376,6 @@
         let g1CoordSpun = false;
         let g2CoordSpun = false;
 
-        // Function to Request True Fullscreen
         function requestFullScreen() {
             const doc = window.document;
             const docEl = doc.documentElement;
@@ -382,7 +391,6 @@
             }
         }
 
-        // Modified function for the first button click
         function startAppAndFullscreen() {
             requestFullScreen();
             nextSlide(2);
@@ -446,7 +454,7 @@
                 if (groupNum === 2) g2CoordSpun = true;
 
                 if(g1CoordSpun && g2CoordSpun) {
-                    document.getElementById('btn-next-3').style.display = 'inline-block';
+                    document.getElementById('btn-next-4').style.display = 'inline-block';
                 }
             });
         }
@@ -466,7 +474,7 @@
             executeSpin('name-spinner-2', total2, 10, () => {
                 document.getElementById('final-g2-name').innerText = "GROUP II: " + targetName2;
                 btn.style.display = 'none';
-                document.getElementById('btn-next-4').style.display = 'inline-block';
+                document.getElementById('btn-next-5').style.display = 'inline-block';
             });
         }
     </script>
