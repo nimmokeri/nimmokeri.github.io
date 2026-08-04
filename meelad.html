@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NIM MEELAD FEST 2026</title>
-    <!-- Poppins Font for a clean modern look -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Modern, eye-friendly dark slate colors */
-            --bg-dark: #0f172a; 
-            --bg-light: #1e293b;
+            /* Modern, richer dark slate colors */
+            --bg-dark: #020617; 
+            --bg-light: #0f172a;
             --gold: #fbbf24;
-            --gold-muted: rgba(251, 191, 36, 0.2);
+            --gold-muted: rgba(251, 191, 36, 0.3);
             --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-muted: #cbd5e1;
+            --card-bg: rgba(255, 255, 255, 0.05);
         }
 
         body {
@@ -28,50 +27,86 @@
             position: relative;
         }
 
-        /* Modern Soothing Animated Background */
+        /* 1. Subtle Islamic Geometric Pattern Overlay */
+        .islamic-pattern {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30 30 0zm0 15L15 30l15 15 15-15-15-15z' fill='%23fbbf24' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* 2. More Noticeable & Colorful Moving Blobs */
         .bg-blobs {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             overflow: hidden;
-            z-index: -1;
+            z-index: -3;
             background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
         }
 
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(120px); 
-            opacity: 0.35; 
-            animation: moveBlobs 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            filter: blur(80px); /* Less blur for more color pop */
+            opacity: 0.45; /* Higher opacity */
+            animation: moveBlobs 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); /* Faster animation */
         }
 
         .blob-1 {
             width: 500px; height: 500px;
-            background: #3b82f6; 
+            background: #10b981; /* Emerald Green */
             top: -10%; left: -10%;
         }
         
         .blob-2 {
             width: 600px; height: 600px;
-            background: #f59e0b; 
+            background: #f59e0b; /* Rich Gold/Amber */
             bottom: -20%; right: -10%;
-            animation-delay: -5s;
+            animation-delay: -3s;
         }
 
         .blob-3 {
-            width: 400px; height: 400px;
-            background: #8b5cf6; 
-            top: 40%; left: 50%;
-            transform: translate(-50%, -50%);
-            animation-duration: 30s;
+            width: 450px; height: 450px;
+            background: #06b6d4; /* Deep Cyan/Teal */
+            top: 30%; left: 40%;
+            animation-duration: 20s;
         }
 
         @keyframes moveBlobs {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(120px, 60px) scale(1.1); }
-            100% { transform: translate(-60px, 120px) scale(0.9); }
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(20vw, 15vh) scale(1.2) rotate(45deg); }
+            66% { transform: translate(-15vw, 25vh) scale(0.9) rotate(-45deg); }
+            100% { transform: translate(10vw, -20vh) scale(1.1) rotate(20deg); }
         }
 
+        /* 3. Floating Festive Elements (Crescents & Stars) */
+        .festive-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -100px; /* Start below the screen */
+            color: rgba(251, 191, 36, 0.7); /* Golden color */
+            font-size: 2rem;
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.8)); /* Glowing effect */
+            animation: floatUp 15s infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translateY(-55vh) rotate(180deg) scale(1.2); }
+            90% { opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg) scale(0.8); opacity: 0; }
+        }
+
+        /* Basic Setup & Cards */
         .slide {
             display: none;
             min-height: 100vh;
@@ -95,32 +130,33 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        h1 { color: var(--gold); font-weight: 800; font-size: 2.5rem; margin-bottom: 5px; text-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        h2 { font-size: 1.4rem; margin-top: 0; font-weight: 400; color: #e2e8f0; }
+        h1 { color: var(--gold); font-weight: 800; font-size: 2.8rem; margin-bottom: 5px; text-shadow: 0 5px 20px rgba(0,0,0,0.5); letter-spacing: 1px;}
+        h2 { font-size: 1.5rem; margin-top: 0; font-weight: 400; color: #f1f5f9; }
         h3 { color: var(--gold); margin-bottom: 15px; font-weight: 600; }
         p { margin: 5px 0; color: var(--text-muted); }
 
-        .subtitle { font-size: 1rem; color: var(--text-muted); margin-bottom: 30px; letter-spacing: 2px; font-weight: 300;}
+        .subtitle { font-size: 1.1rem; color: var(--gold); margin-bottom: 30px; letter-spacing: 3px; font-weight: 600;}
 
         .btn {
             background: linear-gradient(135deg, #f59e0b, #fbbf24);
-            color: #0f172a;
+            color: #020617;
             border: none;
-            padding: 14px 35px;
+            padding: 15px 40px;
             font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 800;
             margin-top: 35px;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
             font-family: 'Poppins', sans-serif;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(245, 158, 11, 0.3);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.5);
         }
 
         .btn:disabled {
@@ -131,11 +167,10 @@
             box-shadow: none;
         }
 
-        /* Modern Soft Glassmorphism Cards */
         .grid-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 25px;
+            gap: 30px;
             justify-content: center;
             width: 100%;
             max-width: 900px;
@@ -143,22 +178,22 @@
 
         .card {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-top: 1px solid var(--gold-muted);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-top: 2px solid var(--gold);
             border-radius: 20px;
             padding: 30px 25px;
             width: 100%;
             max-width: 350px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             text-align: left;
         }
 
-        .card h3 { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; letter-spacing: 1px;}
+        .card h3 { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; letter-spacing: 1px; font-size: 1.4rem;}
         
-        .role-title { font-size: 0.8rem; color: var(--text-muted); margin-top: 18px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;}
-        .name-item { font-size: 1.05rem; font-weight: 400; margin-left: 10px; margin-top: 8px; color: #e2e8f0;}
+        .role-title { font-size: 0.85rem; color: var(--text-muted); margin-top: 18px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;}
+        .name-item { font-size: 1.1rem; font-weight: 600; margin-left: 10px; margin-top: 5px; color: #f8fafc;}
 
         /* Spinner Styles */
         .spinner-section {
@@ -168,27 +203,27 @@
             margin: 15px 0;
             width: 100%;
             max-width: 400px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
         .spinner-window {
-            height: 70px;
+            height: 75px;
             overflow: hidden;
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(2, 6, 23, 0.7);
             border-radius: 12px;
             position: relative;
             margin-bottom: 20px;
             border: 1px solid var(--gold-muted);
-            box-shadow: inset 0 5px 15px rgba(0,0,0,0.4);
+            box-shadow: inset 0 5px 20px rgba(0,0,0,0.5);
         }
 
         .spinner-window::before, .spinner-window::after {
-            content: ''; position: absolute; left: 0; right: 0; height: 20px; z-index: 2; pointer-events: none;
+            content: ''; position: absolute; left: 0; right: 0; height: 25px; z-index: 2; pointer-events: none;
         }
-        .spinner-window::before { top: 0; background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), transparent); }
-        .spinner-window::after { bottom: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent); }
+        .spinner-window::before { top: 0; background: linear-gradient(to bottom, rgba(2, 6, 23, 0.95), transparent); }
+        .spinner-window::after { bottom: 0; background: linear-gradient(to top, rgba(2, 6, 23, 0.95), transparent); }
 
         .spinner-list {
             list-style: none;
@@ -197,11 +232,11 @@
         }
 
         .spinner-list li {
-            height: 70px;
+            height: 75px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #f1f5f9;
         }
@@ -210,14 +245,28 @@
 </head>
 <body>
 
+    <!-- Beautiful Backgrounds -->
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
     </div>
+    
+    <div class="islamic-pattern"></div>
+
+    <!-- Floating Festive Elements -->
+    <div class="festive-particles">
+        <div class="particle" style="left: 10%; animation-duration: 14s; animation-delay: 0s; font-size: 2.5rem;">☪</div>
+        <div class="particle" style="left: 25%; animation-duration: 12s; animation-delay: 4s; font-size: 1.5rem;">✨</div>
+        <div class="particle" style="left: 45%; animation-duration: 16s; animation-delay: 2s; font-size: 2rem;">⭐</div>
+        <div class="particle" style="left: 65%; animation-duration: 13s; animation-delay: 6s; font-size: 3rem;">☪</div>
+        <div class="particle" style="left: 85%; animation-duration: 15s; animation-delay: 1s; font-size: 1.8rem;">✨</div>
+        <div class="particle" style="left: 95%; animation-duration: 11s; animation-delay: 3s; font-size: 2.2rem;">⭐</div>
+    </div>
 
     <!-- Slide 1: Welcome -->
     <div id="slide-1" class="slide active">
+        <div style="font-size: 4rem; margin-bottom: -10px; color: var(--gold); filter: drop-shadow(0 0 15px rgba(251,191,36,0.6));">☪</div>
         <h1>NIM MEELAD FEST 2026</h1>
         <h2>NIBRASUL ISLAM MADRASA MOKERI</h2>
         <div class="subtitle">REG: 2368 UNDER: SKIMVB</div>
@@ -226,17 +275,17 @@
 
     <!-- Slide 2: Boys Leaders -->
     <div id="slide-2" class="slide">
-        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2.2rem; font-weight: 600; letter-spacing: 1px;">Boys Leaders</h2>
+        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Boys Leaders</h2>
         <div class="grid-container">
             <div class="card" style="text-align: center;">
                 <h3>GROUP I</h3>
-                <div class="name-item" style="margin-top: 20px;">MUHAMMAD ASHFIN (L)</div>
-                <div class="name-item" style="margin-bottom: 10px;">MUHAMMAD AMEEN KP (AL)</div>
+                <div class="name-item" style="margin-top: 25px; font-size: 1.2rem;">MUHAMMAD ASHFIN (L)</div>
+                <div class="name-item" style="margin-bottom: 10px; margin-top: 15px; font-size: 1.2rem;">MUHAMMAD AMEEN KP (AL)</div>
             </div>
             <div class="card" style="text-align: center;">
                 <h3>GROUP II</h3>
-                <div class="name-item" style="margin-top: 20px;">MUHAMMAD AMEEN KK (L)</div>
-                <div class="name-item" style="margin-bottom: 10px;">MUHAMMAD KK (AL)</div>
+                <div class="name-item" style="margin-top: 25px; font-size: 1.2rem;">MUHAMMAD AMEEN KK (L)</div>
+                <div class="name-item" style="margin-bottom: 10px; margin-top: 15px; font-size: 1.2rem;">MUHAMMAD KK (AL)</div>
             </div>
         </div>
         <button class="btn" onclick="nextSlide(3)">View Girls Leaders</button>
@@ -244,17 +293,17 @@
 
     <!-- Slide 3: Girls Leaders -->
     <div id="slide-3" class="slide">
-        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2.2rem; font-weight: 600; letter-spacing: 1px;">Girls Leaders</h2>
+        <h2 style="color: var(--gold); margin-bottom: 30px; font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Girls Leaders</h2>
         <div class="grid-container">
             <div class="card" style="text-align: center;">
                 <h3>GROUP I</h3>
-                <div class="name-item" style="margin-top: 20px;">MINHA FATHIMA (L)</div>
-                <div class="name-item" style="margin-bottom: 10px;">MEHARIN N NOUSHAD (AL)</div>
+                <div class="name-item" style="margin-top: 25px; font-size: 1.2rem;">MINHA FATHIMA (L)</div>
+                <div class="name-item" style="margin-bottom: 10px; margin-top: 15px; font-size: 1.2rem;">MEHARIN N NOUSHAD (AL)</div>
             </div>
             <div class="card" style="text-align: center;">
                 <h3>GROUP II</h3>
-                <div class="name-item" style="margin-top: 20px;">THAHLIYA FATHIMA (L)</div>
-                <div class="name-item" style="margin-bottom: 10px;">FATHIMA ZANHA (AL)</div>
+                <div class="name-item" style="margin-top: 25px; font-size: 1.2rem;">THAHLIYA FATHIMA (L)</div>
+                <div class="name-item" style="margin-bottom: 10px; margin-top: 15px; font-size: 1.2rem;">FATHIMA ZANHA (AL)</div>
             </div>
         </div>
         <button class="btn" onclick="nextSlide(4)">Select Coordinators</button>
@@ -262,28 +311,28 @@
 
     <!-- Slide 4: Coordinator Spinners -->
     <div id="slide-4" class="slide">
-        <h2 style="color: var(--gold); font-size: 2rem; font-weight: 600;">Group Coordinators</h2>
-        <p style="margin-bottom: 25px;">Selecting coordinators from the teachers list...</p>
+        <h2 style="color: var(--gold); font-size: 2.2rem; font-weight: 800; text-transform: uppercase;">Group Coordinators</h2>
+        <p style="margin-bottom: 30px; font-size: 1.1rem;">Selecting coordinators from the teachers list...</p>
         
         <div class="grid-container">
             <div class="spinner-section">
-                <h3 style="font-size: 1.1rem; color: #e2e8f0;">Group I Coordinator</h3>
+                <h3 style="font-size: 1.2rem; color: #f8fafc; font-weight: 600;">Group I Coordinator</h3>
                 <div class="spinner-window">
                     <ul class="spinner-list" id="coord-spinner-1">
                         <li style="color: var(--text-muted);">Ready...</li>
                     </ul>
                 </div>
-                <button class="btn" id="btn-spin-1" style="margin-top:0; font-size:0.95rem; padding: 10px 25px;" onclick="spinCoordinator(1)">Spin for Group I</button>
+                <button class="btn" id="btn-spin-1" style="margin-top:0; font-size:0.95rem; padding: 12px 25px;" onclick="spinCoordinator(1)">Spin for Group I</button>
             </div>
 
             <div class="spinner-section">
-                <h3 style="font-size: 1.1rem; color: #e2e8f0;">Group II Coordinator</h3>
+                <h3 style="font-size: 1.2rem; color: #f8fafc; font-weight: 600;">Group II Coordinator</h3>
                 <div class="spinner-window">
                     <ul class="spinner-list" id="coord-spinner-2">
                         <li style="color: var(--text-muted);">Ready...</li>
                     </ul>
                 </div>
-                <button class="btn" id="btn-spin-2" style="margin-top:0; font-size:0.95rem; padding: 10px 25px;" onclick="spinCoordinator(2)">Spin for Group II</button>
+                <button class="btn" id="btn-spin-2" style="margin-top:0; font-size:0.95rem; padding: 12px 25px;" onclick="spinCoordinator(2)">Spin for Group II</button>
             </div>
         </div>
         
@@ -292,12 +341,12 @@
 
     <!-- Slide 5: Group Name Spinners -->
     <div id="slide-5" class="slide">
-        <h2 style="color: var(--gold); font-size: 2rem; font-weight: 600;">Group Names</h2>
-        <p style="margin-bottom: 25px;">Assigning names for each group...</p>
+        <h2 style="color: var(--gold); font-size: 2.2rem; font-weight: 800; text-transform: uppercase;">Group Names</h2>
+        <p style="margin-bottom: 30px; font-size: 1.1rem;">Assigning names for each group...</p>
         
         <div class="grid-container">
             <div class="spinner-section">
-                <h3 style="font-size: 1.1rem; color: #e2e8f0;">Group I Name</h3>
+                <h3 style="font-size: 1.2rem; color: #f8fafc; font-weight: 600;">Group I Name</h3>
                 <div class="spinner-window">
                     <ul class="spinner-list" id="name-spinner-1">
                         <li style="color: var(--text-muted);">Ready...</li>
@@ -306,7 +355,7 @@
             </div>
 
             <div class="spinner-section">
-                <h3 style="font-size: 1.1rem; color: #e2e8f0;">Group II Name</h3>
+                <h3 style="font-size: 1.2rem; color: #f8fafc; font-weight: 600;">Group II Name</h3>
                 <div class="spinner-window">
                     <ul class="spinner-list" id="name-spinner-2">
                         <li style="color: var(--text-muted);">Ready...</li>
@@ -321,40 +370,41 @@
 
     <!-- Slide 6: Final Overview -->
     <div id="slide-6" class="slide">
-        <h1 style="font-size: 2rem;">NIM MEELAD FEST 2026</h1>
-        <h2 style="color: var(--gold); margin-bottom: 30px; letter-spacing: 1px;">FINAL GROUPS OVERVIEW</h2>
+        <div style="font-size: 3rem; margin-bottom: -15px; color: var(--gold); filter: drop-shadow(0 0 15px rgba(251,191,36,0.6));">☪</div>
+        <h1 style="font-size: 2.2rem;">NIM MEELAD FEST 2026</h1>
+        <h2 style="color: var(--gold); margin-bottom: 35px; letter-spacing: 2px; font-weight: 800;">FINAL GROUPS OVERVIEW</h2>
         
         <div class="grid-container">
-            <div class="card" style="border-top: 3px solid var(--gold); background: rgba(15, 23, 42, 0.4);">
-                <h3 id="final-g1-name" style="font-size: 1.6rem; color: var(--gold); border: none; padding-bottom: 5px;">GROUP I</h3>
-                <div class="role-title">COORDINATOR</div>
-                <div class="name-item" id="final-g1-coord" style="color: #fff; font-size: 1.1rem; font-weight: 600;">-</div>
+            <div class="card" style="border-top: 4px solid var(--gold); background: rgba(2, 6, 23, 0.5);">
+                <h3 id="final-g1-name" style="font-size: 1.8rem; color: var(--gold); border: none; padding-bottom: 0;">GROUP I</h3>
+                <div class="role-title" style="margin-top: 10px;">COORDINATOR</div>
+                <div class="name-item" id="final-g1-coord" style="color: #fbbf24; font-size: 1.2rem; font-weight: 800;">-</div>
                 
-                <div class="role-title" style="margin-top: 20px;">BOYS LEADERS</div>
+                <div class="role-title" style="margin-top: 25px;">BOYS LEADERS</div>
                 <div class="name-item">MUHAMMAD ASHFIN (L)</div>
                 <div class="name-item">MUHAMMAD AMEEN KP (AL)</div>
                 
-                <div class="role-title">GIRLS LEADERS</div>
+                <div class="role-title" style="margin-top: 20px;">GIRLS LEADERS</div>
                 <div class="name-item">MINHA FATHIMA (L)</div>
                 <div class="name-item">MEHARIN N NOUSHAD (AL)</div>
             </div>
 
-            <div class="card" style="border-top: 3px solid var(--gold); background: rgba(15, 23, 42, 0.4);">
-                <h3 id="final-g2-name" style="font-size: 1.6rem; color: var(--gold); border: none; padding-bottom: 5px;">GROUP II</h3>
-                <div class="role-title">COORDINATOR</div>
-                <div class="name-item" id="final-g2-coord" style="color: #fff; font-size: 1.1rem; font-weight: 600;">-</div>
+            <div class="card" style="border-top: 4px solid var(--gold); background: rgba(2, 6, 23, 0.5);">
+                <h3 id="final-g2-name" style="font-size: 1.8rem; color: var(--gold); border: none; padding-bottom: 0;">GROUP II</h3>
+                <div class="role-title" style="margin-top: 10px;">COORDINATOR</div>
+                <div class="name-item" id="final-g2-coord" style="color: #fbbf24; font-size: 1.2rem; font-weight: 800;">-</div>
                 
-                <div class="role-title" style="margin-top: 20px;">BOYS LEADERS</div>
+                <div class="role-title" style="margin-top: 25px;">BOYS LEADERS</div>
                 <div class="name-item">MUHAMMAD AMEEN KK (L)</div>
                 <div class="name-item">MUHAMMAD KK (AL)</div>
                 
-                <div class="role-title">GIRLS LEADERS</div>
+                <div class="role-title" style="margin-top: 20px;">GIRLS LEADERS</div>
                 <div class="name-item">THAHLIYA FATHIMA (L)</div>
                 <div class="name-item">FATHIMA ZANHA (AL)</div>
             </div>
         </div>
         
-        <button class="btn" onclick="location.reload()" style="margin-top: 40px; background: transparent; border: 1px solid var(--gold); color: var(--gold); box-shadow: none;">Restart App</button>
+        <button class="btn" onclick="location.reload()" style="margin-top: 40px; background: transparent; border: 2px solid var(--gold); color: var(--gold); box-shadow: none;">Restart App</button>
     </div>
 
     <script>
@@ -429,7 +479,7 @@
             
             ul.style.transition = `transform ${durationSec}s cubic-bezier(0.15, 0.85, 0.1, 1)`;
             
-            const itemHeight = 70;
+            const itemHeight = 75; // Adjusted item height
             const distance = -((totalItems - 1) * itemHeight);
             ul.style.transform = `translateY(${distance}px)`;
 
