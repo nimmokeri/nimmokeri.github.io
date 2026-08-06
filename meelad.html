@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NIM MEELAD FEST 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #020617; 
@@ -21,39 +21,35 @@
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-light);
-            /* STRICT NO SCROLL FOR DESKTOP PRESENTATIONS */
-            overflow: hidden; 
+            overflow: hidden; /* STRICT NO SCROLL */
             height: 100vh;
+            width: 100vw;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
+        /* Background Effects */
         .islamic-pattern {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30 30 0zm0 15L15 30l15 15 15-15-15-15z' fill='%23fbbf24' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
-            z-index: -2;
-            pointer-events: none;
+            z-index: -2; pointer-events: none;
         }
 
         .bg-blobs {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            overflow: hidden;
-            z-index: -3;
-            background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            overflow: hidden; z-index: -3; background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
         }
 
         .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.45; 
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; 
             animation: moveBlobs 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .blob-1 { width: 50vw; height: 50vw; max-width: 500px; max-height: 500px; background: #10b981; top: -10%; left: -10%; }
-        .blob-2 { width: 60vw; height: 60vw; max-width: 600px; max-height: 600px; background: #f59e0b; bottom: -20%; right: -10%; animation-delay: -3s; }
-        .blob-3 { width: 40vw; height: 40vw; max-width: 450px; max-height: 450px; background: #06b6d4; top: 30%; left: 40%; animation-duration: 20s; }
+        .blob-1 { width: 50vw; height: 50vw; background: #10b981; top: -10%; left: -10%; }
+        .blob-2 { width: 60vw; height: 60vw; background: #f59e0b; bottom: -20%; right: -10%; animation-delay: -3s; }
+        .blob-3 { width: 45vw; height: 45vw; background: #06b6d4; top: 30%; left: 40%; animation-duration: 20s; }
 
         @keyframes moveBlobs {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); }
@@ -68,8 +64,7 @@
         }
 
         .particle {
-            position: absolute; bottom: -100px;
-            color: rgba(251, 191, 36, 0.7);
+            position: absolute; bottom: -100px; color: rgba(251, 191, 36, 0.7);
             filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.8));
             animation: floatUp 15s infinite linear;
         }
@@ -82,15 +77,26 @@
             100% { transform: translateY(-110vh) rotate(360deg) scale(0.8); opacity: 0; }
         }
 
+        /* 16:9 Screen Setup */
+        .presentation-area {
+            width: 100vw;
+            height: 100vh;
+            max-width: 1920px;
+            max-height: 1080px;
+            aspect-ratio: 16/9; /* Ensures ideal layout scaling */
+            display: flex;
+            position: relative;
+        }
+
         .slide {
             display: none;
-            height: 100vh; /* Force exactly 100% of screen height */
-            width: 100vw;
+            width: 100%;
+            height: 100%;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 2vh 2vw; /* Responsive padding */
+            padding: 3vh 4vw;
             box-sizing: border-box;
             animation: fadeIn 0.6s ease-out;
             z-index: 10;
@@ -99,103 +105,136 @@
         .slide.active { display: flex; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
+            from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* Dynamic Font Sizing to fit any projector */
-        h1 { color: var(--gold); font-weight: 800; font-size: clamp(1.8rem, 4vh, 2.8rem); margin-bottom: 0.5vh; text-shadow: 0 5px 15px rgba(0,0,0,0.5); letter-spacing: 1px;}
-        h2 { font-size: clamp(1.2rem, 2.5vh, 1.8rem); margin-top: 0; font-weight: 800; text-transform: uppercase; color: #f1f5f9; }
-        .subtitle { font-size: clamp(0.9rem, 1.8vh, 1.1rem); color: var(--gold); margin-bottom: 2vh; letter-spacing: 2px; font-weight: 600;}
-        p { margin: 1vh 0 2vh 0; font-size: clamp(0.9rem, 1.8vh, 1.1rem); color: var(--text-muted); }
+        /* MASSIVE TYPOGRAPHY FOR BACK-ROW VISIBILITY */
+        h1 { color: var(--gold); font-weight: 900; font-size: clamp(3rem, 5vw, 5rem); margin: 0 0 1vh 0; text-shadow: 0 5px 20px rgba(0,0,0,0.6); letter-spacing: 2px; text-transform: uppercase;}
+        h2 { font-size: clamp(1.8rem, 3vw, 3rem); margin: 0 0 2vh 0; font-weight: 800; text-transform: uppercase; color: #f1f5f9; letter-spacing: 1px;}
+        .subtitle { font-size: clamp(1.2rem, 2vw, 1.8rem); color: var(--gold); margin-bottom: 4vh; letter-spacing: 4px; font-weight: 600; text-transform: uppercase;}
+        
+        .main-icon { font-size: clamp(3rem, 7vw, 6rem); margin-bottom: 0; color: var(--gold); filter: drop-shadow(0 0 20px rgba(251,191,36,0.8)); line-height: 1;}
 
         .btn {
             background: linear-gradient(135deg, #f59e0b, #fbbf24);
             color: #020617; border: none;
-            padding: 1.5vh 3vw;
-            font-size: clamp(0.9rem, 1.8vh, 1.1rem);
-            border-radius: 50px; cursor: pointer; font-weight: 800;
-            margin-top: 2vh;
+            padding: 2vh 4vw;
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            border-radius: 60px; cursor: pointer; font-weight: 900;
+            margin-top: 4vh;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
-            text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+            text-transform: uppercase; letter-spacing: 2px;
         }
-        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 25px rgba(245, 158, 11, 0.5); }
+        .btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 40px rgba(245, 158, 11, 0.6); }
         .btn:disabled { background: #334155; color: #64748b; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* Presentation Optimized Grid */
+        /* WIDER AND TALLER CARDS */
         .grid-container {
             display: flex;
-            gap: 2vw; /* Responsive gap */
+            gap: 3vw;
             justify-content: center;
             width: 100%;
-            max-width: 1000px;
-        }
-
-        /* Lock layout side-by-side on desktop/laptop */
-        @media (min-width: 768px) {
-            .grid-container { flex-wrap: nowrap; }
-            .card, .spinner-section { flex: 1; max-width: 450px; }
+            max-width: 95%; /* Use almost full width */
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid rgba(251, 191, 36, 0.15);
-            border-top: 3px solid var(--gold);
-            border-radius: 15px;
-            padding: 2vh 2vw; /* Scaled padding to prevent overflow */
-            backdrop-filter: blur(12px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            text-align: left;
+            border-top: 5px solid var(--gold);
+            border-radius: 25px;
+            padding: 3vh 3vw;
+            flex: 1; /* Cards stretch equally */
+            max-width: 48%; /* Ensure side-by-side */
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .card h3 { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1vh; letter-spacing: 1px; font-size: clamp(1.2rem, 2.5vh, 1.6rem); margin: 0 0 1vh 0;}
+        .card h3 { 
+            border-bottom: 2px solid rgba(255,255,255,0.1); 
+            padding-bottom: 2vh; 
+            letter-spacing: 2px; 
+            font-size: clamp(2rem, 3.5vw, 3.5rem); /* HUGE GROUP TITLES */
+            color: var(--gold);
+            margin: 0 0 2vh 0;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
         
-        /* Compact typography for Final Overview */
-        .role-title { font-size: clamp(0.7rem, 1.4vh, 0.85rem); color: var(--text-muted); margin-top: 1.5vh; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;}
-        .name-item { font-size: clamp(0.9rem, 1.8vh, 1.1rem); font-weight: 600; margin-left: 10px; margin-top: 0.5vh; color: #f8fafc;}
+        .role-title { 
+            font-size: clamp(1rem, 1.5vw, 1.4rem); 
+            color: var(--text-muted); 
+            margin-top: 3vh; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-weight: 800;
+        }
+        
+        .name-item { 
+            font-size: clamp(1.4rem, 2.3vw, 2.2rem); /* MASSIVE NAMES */
+            font-weight: 800; 
+            margin-top: 1vh; 
+            color: #f8fafc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        /* Spinner Styles - Compacted for Presentation */
+        /* OVERSIZED SPINNERS */
         .spinner-section {
             background: var(--card-bg);
-            padding: 2vh 2vw;
-            border-radius: 15px;
-            margin: 1vh 0;
-            border: 1px solid rgba(251, 191, 36, 0.2);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            padding: 4vh 3vw;
+            border-radius: 25px;
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            flex: 1;
+            max-width: 45%;
         }
-        .spinner-section h3 { margin: 0 0 1.5vh 0; font-size: clamp(1rem, 2vh, 1.2rem); color: #f8fafc; font-weight: 600;}
+        
+        .spinner-section h3 { 
+            margin: 0 0 3vh 0; 
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem); 
+            color: #f8fafc; 
+            font-weight: 800;
+            text-transform: uppercase;
+        }
 
         .spinner-window {
-            height: 60px; /* Compacted height */
+            height: 90px; /* BIGGER WINDOW */
             overflow: hidden;
-            background: rgba(2, 6, 23, 0.7);
-            border-radius: 10px;
+            background: rgba(2, 6, 23, 0.8);
+            border-radius: 15px;
             position: relative;
-            margin-bottom: 1.5vh;
-            border: 1px solid var(--gold-muted);
-            box-shadow: inset 0 5px 15px rgba(0,0,0,0.5);
+            margin-bottom: 3vh;
+            border: 2px solid var(--gold);
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.6);
         }
 
-        .spinner-window::before, .spinner-window::after { content: ''; position: absolute; left: 0; right: 0; height: 15px; z-index: 2; pointer-events: none; }
-        .spinner-window::before { top: 0; background: linear-gradient(to bottom, rgba(2, 6, 23, 0.95), transparent); }
-        .spinner-window::after { bottom: 0; background: linear-gradient(to top, rgba(2, 6, 23, 0.95), transparent); }
+        .spinner-window::before, .spinner-window::after { content: ''; position: absolute; left: 0; right: 0; height: 25px; z-index: 2; pointer-events: none; }
+        .spinner-window::before { top: 0; background: linear-gradient(to bottom, rgba(2, 6, 23, 1), transparent); }
+        .spinner-window::after { bottom: 0; background: linear-gradient(to top, rgba(2, 6, 23, 1), transparent); }
 
         .spinner-list { list-style: none; padding: 0; margin: 0; }
         .spinner-list li {
-            height: 60px; /* Matches spinner-window height */
+            height: 90px; /* MUST MATCH WINDOW HEIGHT */
             display: flex; align-items: center; justify-content: center;
-            font-size: clamp(1rem, 2vh, 1.15rem); font-weight: 600; color: #f1f5f9;
+            font-size: clamp(1.5rem, 2.2vw, 2.2rem); 
+            font-weight: 800; 
+            color: #f1f5f9;
+            text-transform: uppercase;
         }
 
-        /* Allow scrolling ONLY on mobile phones if absolutely necessary */
-        @media (max-width: 767px) {
-            body { overflow-y: auto; height: auto; }
-            .slide { min-height: 100vh; height: auto; justify-content: center; padding: 5vh 5vw; }
-            .grid-container { flex-wrap: wrap; }
-            .card, .spinner-section { max-width: 100%; }
-        }
+        /* Final Slide Specific Adjustments to prevent squashing */
+        #slide-6 .card { padding: 2vh 2vw; }
+        #slide-6 .card h3 { font-size: clamp(1.8rem, 3vw, 3rem); padding-bottom: 1vh; margin-bottom: 1vh;}
+        #slide-6 .name-item { font-size: clamp(1.2rem, 1.8vw, 1.8rem); margin-top: 0.5vh;}
+        #slide-6 .role-title { margin-top: 2vh; font-size: clamp(0.9rem, 1.2vw, 1.2rem);}
+
     </style>
 </head>
 <body>
@@ -208,156 +247,155 @@
     <div class="islamic-pattern"></div>
 
     <div class="festive-particles">
-        <div class="particle" style="left: 10%; animation-duration: 14s; font-size: 2.5rem;">☪</div>
-        <div class="particle" style="left: 25%; animation-duration: 12s; animation-delay: 4s; font-size: 1.5rem;">✨</div>
-        <div class="particle" style="left: 45%; animation-duration: 16s; animation-delay: 2s; font-size: 2rem;">⭐</div>
-        <div class="particle" style="left: 65%; animation-duration: 13s; animation-delay: 6s; font-size: 3rem;">☪</div>
-        <div class="particle" style="left: 85%; animation-duration: 15s; animation-delay: 1s; font-size: 1.8rem;">✨</div>
-        <div class="particle" style="left: 95%; animation-duration: 11s; animation-delay: 3s; font-size: 2.2rem;">⭐</div>
+        <div class="particle" style="left: 10%; animation-duration: 14s; font-size: 3rem;">☪</div>
+        <div class="particle" style="left: 25%; animation-duration: 12s; animation-delay: 4s; font-size: 2rem;">✨</div>
+        <div class="particle" style="left: 45%; animation-duration: 16s; animation-delay: 2s; font-size: 2.5rem;">⭐</div>
+        <div class="particle" style="left: 65%; animation-duration: 13s; animation-delay: 6s; font-size: 4rem;">☪</div>
+        <div class="particle" style="left: 85%; animation-duration: 15s; animation-delay: 1s; font-size: 2.2rem;">✨</div>
+        <div class="particle" style="left: 95%; animation-duration: 11s; animation-delay: 3s; font-size: 3rem;">⭐</div>
     </div>
 
-    <!-- Slide 1: Welcome -->
-    <div id="slide-1" class="slide active">
-        <div style="font-size: clamp(2rem, 6vh, 4rem); margin-bottom: 0; color: var(--gold); filter: drop-shadow(0 0 15px rgba(251,191,36,0.6));">☪</div>
-        <h1>NIM MEELAD FEST 2026</h1>
-        <h2>NIBRASUL ISLAM MADRASA MOKERI</h2>
-        <div class="subtitle">REG: 2368 UNDER: SKIMVB</div>
-        <button class="btn" onclick="startAppAndFullscreen()">Launch Event</button>
-    </div>
+    <!-- WRAPPER FOR 16:9 PRESENTATION -->
+    <div class="presentation-area">
 
-    <!-- Slide 2: Boys Leaders -->
-    <div id="slide-2" class="slide">
-        <h2 style="color: var(--gold); margin-bottom: 3vh;">Boys Leaders</h2>
-        <div class="grid-container">
-            <div class="card" style="text-align: center;">
-                <h3>GROUP I</h3>
-                <div class="name-item" style="margin-top: 3vh;">MUHAMMAD ASHFIN (L)</div>
-                <div class="name-item">MUHAMMAD AMEEN KP (AL)</div>
-            </div>
-            <div class="card" style="text-align: center;">
-                <h3>GROUP II</h3>
-                <div class="name-item" style="margin-top: 3vh;">MUHAMMAD AMEEN KK (L)</div>
-                <div class="name-item">MUHAMMAD KK (AL)</div>
-            </div>
+        <!-- Slide 1: Welcome -->
+        <div id="slide-1" class="slide active">
+            <div class="main-icon">☪</div>
+            <h1>NIM MEELAD FEST 2026</h1>
+            <h2>NIBRASUL ISLAM MADRASA MOKERI</h2>
+            <div class="subtitle">REG: 2368 UNDER: SKIMVB</div>
+            <button class="btn" onclick="startAppAndFullscreen()">Launch Event</button>
         </div>
-        <button class="btn" onclick="nextSlide(3)">View Girls Leaders</button>
-    </div>
 
-    <!-- Slide 3: Girls Leaders -->
-    <div id="slide-3" class="slide">
-        <h2 style="color: var(--gold); margin-bottom: 3vh;">Girls Leaders</h2>
-        <div class="grid-container">
-            <div class="card" style="text-align: center;">
-                <h3>GROUP I</h3>
-                <div class="name-item" style="margin-top: 3vh;">MINHA FATHIMA (L)</div>
-                <div class="name-item">MEHARIN N NOUSHAD (AL)</div>
-            </div>
-            <div class="card" style="text-align: center;">
-                <h3>GROUP II</h3>
-                <div class="name-item" style="margin-top: 3vh;">THAHLIYA FATHIMA (L)</div>
-                <div class="name-item">FATHIMA ZANHA (AL)</div>
-            </div>
-        </div>
-        <button class="btn" onclick="nextSlide(4)">Select Coordinators</button>
-    </div>
-
-    <!-- Slide 4: Coordinator Spinners -->
-    <div id="slide-4" class="slide">
-        <h2 style="color: var(--gold);">Group Coordinators</h2>
-        <p>Selecting coordinators from the teachers list...</p>
-        
-        <div class="grid-container">
-            <div class="spinner-section">
-                <h3>Group I Coordinator</h3>
-                <div class="spinner-window">
-                    <ul class="spinner-list" id="coord-spinner-1">
-                        <li style="color: var(--text-muted);">Ready...</li>
-                    </ul>
+        <!-- Slide 2: Boys Leaders -->
+        <div id="slide-2" class="slide">
+            <h2>BOYS LEADERS</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h3>GROUP I</h3>
+                    <div class="name-item" style="margin-top: 4vh; margin-bottom: 2vh;">MUHAMMAD ASHFIN (L)</div>
+                    <div class="name-item" style="margin-bottom: 2vh;">MUHAMMAD AMEEN KP (AL)</div>
                 </div>
-                <button class="btn" id="btn-spin-1" style="margin-top:0; padding: 1vh 2vw;" onclick="spinCoordinator(1)">Spin for Group I</button>
-            </div>
-
-            <div class="spinner-section">
-                <h3>Group II Coordinator</h3>
-                <div class="spinner-window">
-                    <ul class="spinner-list" id="coord-spinner-2">
-                        <li style="color: var(--text-muted);">Ready...</li>
-                    </ul>
-                </div>
-                <button class="btn" id="btn-spin-2" style="margin-top:0; padding: 1vh 2vw;" onclick="spinCoordinator(2)">Spin for Group II</button>
-            </div>
-        </div>
-        
-        <button class="btn" id="btn-next-4" style="display: none;" onclick="nextSlide(5)">Next Step: Group Names</button>
-    </div>
-
-    <!-- Slide 5: Group Name Spinners -->
-    <div id="slide-5" class="slide">
-        <h2 style="color: var(--gold);">Group Names</h2>
-        <p>Assigning names for each group...</p>
-        
-        <div class="grid-container">
-            <div class="spinner-section">
-                <h3>Group I Name</h3>
-                <div class="spinner-window">
-                    <ul class="spinner-list" id="name-spinner-1">
-                        <li style="color: var(--text-muted);">Ready...</li>
-                    </ul>
+                <div class="card">
+                    <h3>GROUP II</h3>
+                    <div class="name-item" style="margin-top: 4vh; margin-bottom: 2vh;">MUHAMMAD AMEEN KK (L)</div>
+                    <div class="name-item" style="margin-bottom: 2vh;">MUHAMMAD KK (AL)</div>
                 </div>
             </div>
+            <button class="btn" onclick="nextSlide(3)">VIEW GIRLS LEADERS</button>
+        </div>
 
-            <div class="spinner-section">
-                <h3>Group II Name</h3>
-                <div class="spinner-window">
-                    <ul class="spinner-list" id="name-spinner-2">
-                        <li style="color: var(--text-muted);">Ready...</li>
-                    </ul>
+        <!-- Slide 3: Girls Leaders -->
+        <div id="slide-3" class="slide">
+            <h2>GIRLS LEADERS</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h3>GROUP I</h3>
+                    <div class="name-item" style="margin-top: 4vh; margin-bottom: 2vh;">MINHA FATHIMA (L)</div>
+                    <div class="name-item" style="margin-bottom: 2vh;">MEHARIN N NOUSHAD (AL)</div>
+                </div>
+                <div class="card">
+                    <h3>GROUP II</h3>
+                    <div class="name-item" style="margin-top: 4vh; margin-bottom: 2vh;">THAHLIYA FATHIMA (L)</div>
+                    <div class="name-item" style="margin-bottom: 2vh;">FATHIMA ZANHA (AL)</div>
                 </div>
             </div>
+            <button class="btn" onclick="nextSlide(4)">SELECT COORDINATORS</button>
         </div>
 
-        <button class="btn" id="btn-spin-names" onclick="spinNames()">Spin Team Names</button>
-        <button class="btn" id="btn-next-5" style="display: none;" onclick="nextSlide(6)">Go to Overview</button>
-    </div>
+        <!-- Slide 4: Coordinator Spinners -->
+        <div id="slide-4" class="slide">
+            <h2>GROUP COORDINATORS</h2>
+            <div class="grid-container">
+                <div class="spinner-section">
+                    <h3>GROUP I COORDINATOR</h3>
+                    <div class="spinner-window">
+                        <ul class="spinner-list" id="coord-spinner-1">
+                            <li style="color: var(--text-muted);">READY...</li>
+                        </ul>
+                    </div>
+                    <button class="btn" id="btn-spin-1" style="margin-top:0;" onclick="spinCoordinator(1)">SPIN FOR GROUP I</button>
+                </div>
 
-    <!-- Slide 6: Final Overview -->
-    <div id="slide-6" class="slide">
-        <div style="font-size: clamp(1.8rem, 4vh, 2.5rem); margin-bottom: 0; color: var(--gold); filter: drop-shadow(0 0 10px rgba(251,191,36,0.6));">☪</div>
-        <h1>NIM MEELAD FEST 2026</h1>
-        <div class="subtitle" style="margin-bottom: 2vh;">FINAL GROUPS OVERVIEW</div>
-        
-        <div class="grid-container">
-            <div class="card" style="background: rgba(2, 6, 23, 0.5);">
-                <h3 id="final-g1-name" style="color: var(--gold); border: none;">GROUP I</h3>
-                <div class="role-title" style="margin-top: 0;">COORDINATOR</div>
-                <div class="name-item" id="final-g1-coord" style="color: #fbbf24;">-</div>
-                
-                <div class="role-title">BOYS LEADERS</div>
-                <div class="name-item">MUHAMMAD ASHFIN (L)</div>
-                <div class="name-item">MUHAMMAD AMEEN KP (AL)</div>
-                
-                <div class="role-title">GIRLS LEADERS</div>
-                <div class="name-item">MINHA FATHIMA (L)</div>
-                <div class="name-item">MEHARIN N NOUSHAD (AL)</div>
+                <div class="spinner-section">
+                    <h3>GROUP II COORDINATOR</h3>
+                    <div class="spinner-window">
+                        <ul class="spinner-list" id="coord-spinner-2">
+                            <li style="color: var(--text-muted);">READY...</li>
+                        </ul>
+                    </div>
+                    <button class="btn" id="btn-spin-2" style="margin-top:0;" onclick="spinCoordinator(2)">SPIN FOR GROUP II</button>
+                </div>
             </div>
-
-            <div class="card" style="background: rgba(2, 6, 23, 0.5);">
-                <h3 id="final-g2-name" style="color: var(--gold); border: none;">GROUP II</h3>
-                <div class="role-title" style="margin-top: 0;">COORDINATOR</div>
-                <div class="name-item" id="final-g2-coord" style="color: #fbbf24;">-</div>
-                
-                <div class="role-title">BOYS LEADERS</div>
-                <div class="name-item">MUHAMMAD AMEEN KK (L)</div>
-                <div class="name-item">MUHAMMAD KK (AL)</div>
-                
-                <div class="role-title">GIRLS LEADERS</div>
-                <div class="name-item">THAHLIYA FATHIMA (L)</div>
-                <div class="name-item">FATHIMA ZANHA (AL)</div>
-            </div>
+            <button class="btn" id="btn-next-4" style="display: none;" onclick="nextSlide(5)">NEXT STEP: GROUP NAMES</button>
         </div>
-        
-        <button class="btn" onclick="location.reload()" style="background: transparent; border: 1px solid var(--gold); color: var(--gold); box-shadow: none;">Restart App</button>
-    </div>
+
+        <!-- Slide 5: Group Name Spinners -->
+        <div id="slide-5" class="slide">
+            <h2>GROUP NAMES</h2>
+            <div class="grid-container">
+                <div class="spinner-section">
+                    <h3>GROUP I NAME</h3>
+                    <div class="spinner-window">
+                        <ul class="spinner-list" id="name-spinner-1">
+                            <li style="color: var(--text-muted);">READY...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="spinner-section">
+                    <h3>GROUP II NAME</h3>
+                    <div class="spinner-window">
+                        <ul class="spinner-list" id="name-spinner-2">
+                            <li style="color: var(--text-muted);">READY...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" id="btn-spin-names" onclick="spinNames()">SPIN TEAM NAMES</button>
+            <button class="btn" id="btn-next-5" style="display: none;" onclick="nextSlide(6)">GO TO OVERVIEW</button>
+        </div>
+
+        <!-- Slide 6: Final Overview -->
+        <div id="slide-6" class="slide">
+            <div class="main-icon" style="font-size: clamp(2rem, 5vw, 4rem);">☪</div>
+            <h1 style="font-size: clamp(2.5rem, 4vw, 4rem);">NIM MEELAD FEST 2026</h1>
+            <div class="subtitle" style="margin-bottom: 2vh;">FINAL GROUPS OVERVIEW</div>
+            
+            <div class="grid-container">
+                <div class="card" style="background: rgba(2, 6, 23, 0.6); justify-content: flex-start;">
+                    <h3 id="final-g1-name" style="color: var(--gold); border: none;">GROUP I</h3>
+                    <div class="role-title" style="margin-top: 0;">COORDINATOR</div>
+                    <div class="name-item" id="final-g1-coord" style="color: #fbbf24;">-</div>
+                    
+                    <div class="role-title">BOYS LEADERS</div>
+                    <div class="name-item">MUHAMMAD ASHFIN (L)</div>
+                    <div class="name-item">MUHAMMAD AMEEN KP (AL)</div>
+                    
+                    <div class="role-title">GIRLS LEADERS</div>
+                    <div class="name-item">MINHA FATHIMA (L)</div>
+                    <div class="name-item">MEHARIN N NOUSHAD (AL)</div>
+                </div>
+
+                <div class="card" style="background: rgba(2, 6, 23, 0.6); justify-content: flex-start;">
+                    <h3 id="final-g2-name" style="color: var(--gold); border: none;">GROUP II</h3>
+                    <div class="role-title" style="margin-top: 0;">COORDINATOR</div>
+                    <div class="name-item" id="final-g2-coord" style="color: #fbbf24;">-</div>
+                    
+                    <div class="role-title">BOYS LEADERS</div>
+                    <div class="name-item">MUHAMMAD AMEEN KK (L)</div>
+                    <div class="name-item">MUHAMMAD KK (AL)</div>
+                    
+                    <div class="role-title">GIRLS LEADERS</div>
+                    <div class="name-item">THAHLIYA FATHIMA (L)</div>
+                    <div class="name-item">FATHIMA ZANHA (AL)</div>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="location.reload()" style="background: transparent; border: 2px solid var(--gold); color: var(--gold); box-shadow: none; margin-top: 2vh;">RESTART APP</button>
+        </div>
+
+    </div> <!-- End Presentation Area -->
 
     <script>
         const teachers = [
@@ -381,9 +419,7 @@
         function requestFullScreen() {
             const doc = window.document;
             const docEl = doc.documentElement;
-
             const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-
             if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
                 if(requestFullScreen) {
                     requestFullScreen.call(docEl).catch(err => {
@@ -426,12 +462,10 @@
 
         function executeSpin(elementId, totalItems, durationSec, callback) {
             const ul = document.getElementById(elementId);
-            
             void ul.offsetWidth; 
-            
             ul.style.transition = `transform ${durationSec}s cubic-bezier(0.15, 0.85, 0.1, 1)`;
             
-            const itemHeight = 60; /* Matches the new compact 60px height */
+            const itemHeight = 90; /* Must exactly match .spinner-list li height */
             const distance = -((totalItems - 1) * itemHeight);
             ul.style.transform = `translateY(${distance}px)`;
 
@@ -441,7 +475,7 @@
         function spinCoordinator(groupNum) {
             const btn = document.getElementById('btn-spin-' + groupNum);
             btn.disabled = true;
-            btn.innerText = "Spinning...";
+            btn.innerText = "SPINNING...";
 
             const target = groupNum === 1 ? targetCoord1 : targetCoord2;
             const ulId = `coord-spinner-${groupNum}`;
@@ -464,7 +498,7 @@
         function spinNames() {
             const btn = document.getElementById('btn-spin-names');
             btn.disabled = true;
-            btn.innerText = "Assigning...";
+            btn.innerText = "ASSIGNING...";
 
             const total1 = buildSpinnerDOM('name-spinner-1', groupNames, targetName1, 30);
             const total2 = buildSpinnerDOM('name-spinner-2', groupNames, targetName2, 45); 
